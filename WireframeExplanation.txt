@@ -1,0 +1,23 @@
+Ryan Coughlin (rlc4sv) and Brandon Whitfield (bjw4ph)
+10/24/2016
+WireframeExplanation.txt
+
+Overall explanation:
+The purpose of our app is to make navigating a competitive high school or college debate tournament as effortless as possible. To accomplish this, we want information such as current round pairings, past round results, and current standings to be easily accessible. The app will have built in Google Maps navigation to round location in order to make finding where you are supposed to go as seamless as possible. Judges will also have the ability to enter ballots electronically in order to make results tabulation and round pairings expedited. We also will integrate microphone usage to allow rounds to be recorded and listened to to learn for future use.
+
+Screen Explanations:
+Pairings Main Screen: Will have a RecyclerView with all of the pairings in the current round
+At the top of the page there will be a search bar in order to allow a team to search for their name
+
+Pairings Info Screen: Will have Team Names at the Top with Sides Associated, will have judge name, with a  button for a judge to press in order to enter in the results for the round, and then the location, with a  picture of the building, and then a navigate to the building button, and then finally a button to record the round, when this button is pressed an intent will be sent to the phone to open some other microphone app to do the recording
+
+Pairings Navigate Screen: This will have standard google maps integration using the current location of the device as the starting point and the location from the tournament organizer for the room as the ending point
+
+Enter Ballot Screen: First field is the authentication key associated with the round which the judge must enter to verify there identity. Then there will be fields for all the critical information on the ballot such as winning side, and speaking scores for each person
+
+Results Main Screen: Has a dropdown menu to select which round you want to view, and then a search bar to find your teams results in the round, and finally a Recycler View of all of the results, for the round which was selected
+
+Results Ballot Screen: Display the results for the round (Who Won, Speaker Scores) and the recordings for the round
+
+Standings: Show the standings of the teams in recycler view, has the team name and then the wins and losses for the team. There will also be 
+
