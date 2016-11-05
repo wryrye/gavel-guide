@@ -1,0 +1,184 @@
+{
+  "results": [
+    {
+      "_id": "1",
+      "name": "UVA1",
+      "member1ID": {
+        "_id": 1,
+        "name": "Brandon Whitfield",
+        "school": "UVA",
+        "speaks": "26.5"
+      },
+      "member2ID": {
+        "_id": 2,
+        "name": "Ryan Coughlin",
+        "school": "UVA",
+        "speaks": "26.5"
+      },
+      "wins": "1",
+      "losses": "0"
+    },
+    {
+      "_id": "3",
+      "name": "A New Hope",
+      "member1ID": {
+        "_id": 5,
+        "name": "Hillary Clinton",
+        "school": "NYU",
+        "speaks": "26"
+      },
+      "member2ID": {
+        "_id": 6,
+        "name": "Tim Kaine",
+        "school": "NYU",
+        "speaks": "25.5"
+      },
+      "wins": "1",
+      "losses": "0"
+    },
+    {
+      "_id": "6",
+      "name": "UVA Prime",
+      "member1ID": {
+        "_id": 11,
+        "name": "Thomas Jefferson",
+        "school": "UVA",
+        "speaks": "26.5"
+      },
+      "member2ID": {
+        "_id": 12,
+        "name": "TSully",
+        "school": "UVA",
+        "speaks": "26.25"
+      },
+      "wins": "1",
+      "losses": "0"
+    },
+    {
+      "_id": "8",
+      "name": "Avengers2",
+      "member1ID": {
+        "_id": 15,
+        "name": "Iron Man",
+        "school": "Avengers U",
+        "speaks": "25"
+      },
+      "member2ID": {
+        "_id": 16,
+        "name": "Thor",
+        "school": "Avengers U",
+        "speaks": "25.25"
+      },
+      "wins": "1",
+      "losses": "0"
+    },
+    {
+      "_id": "9",
+      "name": "Avengers3",
+      "member1ID": {
+        "_id": 17,
+        "name": "Bruce Banner",
+        "school": "Avengers U",
+        "speaks": "25"
+      },
+      "member2ID": {
+        "_id": 18,
+        "name": "Hawkeye",
+        "school": "Avengers U",
+        "speaks": "25.5"
+      },
+      "wins": "1",
+      "losses": "0"
+    },
+    {
+      "_id": "2",
+      "name": "Death of Democracy",
+      "member1ID": {
+        "_id": 3,
+        "name": "Donald Trump",
+        "school": "Trump University",
+        "speaks": "23.5"
+      },
+      "member2ID": {
+        "_id": 4,
+        "name": "Mike Pence",
+        "school": "Trump University",
+        "speaks": "25"
+      },
+      "wins": "0",
+      "losses": "1"
+    },
+    {
+      "_id": "4",
+      "name": "Dark Knights",
+      "member1ID": {
+        "_id": 7,
+        "name": "Batman",
+        "school": "Gotham University",
+        "speaks": "25"
+      },
+      "member2ID": {
+        "_id": 8,
+        "name": "Robin",
+        "school": "Gotham University",
+        "speaks": "25.5"
+      },
+      "wins": "0",
+      "losses": "1"
+    },
+    {
+      "_id": "5",
+      "name": "Gotham Gangstas",
+      "member1ID": {
+        "_id": 9,
+        "name": "The Joker",
+        "school": "Gotham University",
+        "speaks": "26.25"
+      },
+      "member2ID": {
+        "_id": 10,
+        "name": "Harley Quinn",
+        "school": "Gotham University",
+        "speaks": "23.5"
+      },
+      "wins": "0",
+      "losses": "1"
+    },
+    {
+      "_id": "7",
+      "name": "Avengers1",
+      "member1ID": {
+        "_id": 13,
+        "name": "Captain America",
+        "school": "Avengers U",
+        "speaks": "25"
+      },
+      "member2ID": {
+        "_id": 14,
+        "name": "Scarlet Witch",
+        "school": "Avengers U",
+        "speaks": "25"
+      },
+      "wins": "0",
+      "losses": "1"
+    },
+    {
+      "_id": "10",
+      "name": "Avengers4",
+      "member1ID": {
+        "_id": 19,
+        "name": "Black Widow",
+        "school": "Avengers U",
+        "speaks": "26.25"
+      },
+      "member2ID": {
+        "_id": 20,
+        "name": "Doctor Strange",
+        "school": "Avengers U",
+        "speaks": "24.75"
+      },
+      "wins": "0",
+      "losses": "1"
+    }
+  ]
+}

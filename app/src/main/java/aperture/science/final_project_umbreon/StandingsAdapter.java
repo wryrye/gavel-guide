@@ -8,19 +8,17 @@ package aperture.science.final_project_umbreon;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
-public class PairingsAdapter extends
-        RecyclerView.Adapter<PairingsAdapter.ViewHolder> {
+public class StandingsAdapter extends
+        RecyclerView.Adapter<StandingsAdapter.ViewHolder> {
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -42,13 +40,13 @@ public class PairingsAdapter extends
     }
 
     // Store a member variable for the contacts
-    private ArrayList<String> pairingsData;
+    private ArrayList<String> standingsData;
     // Store the context for easy access
     private Fragment mContext;
 
     // Pass in the contact array into the constructor
-    public PairingsAdapter(Fragment context, ArrayList<String> list) {
-        pairingsData = list;
+    public StandingsAdapter(Fragment context, ArrayList<String> list) {
+        standingsData = list;
         mContext = context;
     }
 
@@ -59,25 +57,25 @@ public class PairingsAdapter extends
 
     // Usually involves inflating a layout from XML and returning the holder
     @Override
-    public PairingsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StandingsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View pairingsView = inflater.inflate(R.layout.item_pairing, parent, false);
+        View standingsView = inflater.inflate(R.layout.item_standing, parent, false);
 
 //        Log.d("GLaDOS", "hello!");
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(pairingsView);
+        ViewHolder viewHolder = new ViewHolder(standingsView);
         return viewHolder;
     }
 
     // Involves populating data into the item through holder
     @Override
-    public void onBindViewHolder(PairingsAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(StandingsAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        String stringy = pairingsData.get(position);
+        String stringy = standingsData.get(position);
 
         // Set item views based on your views and data model
         TextView textView = viewHolder.nameTextView;
@@ -94,10 +92,10 @@ public class PairingsAdapter extends
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return pairingsData.size();
+        return standingsData.size();
     }
 
-    public ArrayList<String> getPairings(){
-        return pairingsData;
+    public ArrayList<String> getStandingsData(){
+        return standingsData;
     }
 }

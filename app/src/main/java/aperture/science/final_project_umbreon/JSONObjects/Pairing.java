@@ -1,4 +1,4 @@
-package aperture.science.final_project_umbreon;
+package aperture.science.final_project_umbreon.JSONObjects;
 
 
 import java.util.HashMap;

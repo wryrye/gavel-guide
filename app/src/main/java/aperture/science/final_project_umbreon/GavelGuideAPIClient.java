@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class GavelGuideAPIClient {
-    public static final String BASE_URL = "https://api.nasa.gov/planetary/";
+    public static final String BASE_URL = "http://ec2-54-145-200-199.compute-1.amazonaws.com:1234/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {

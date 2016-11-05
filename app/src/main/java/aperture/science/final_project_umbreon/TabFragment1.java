@@ -2,28 +2,22 @@ package aperture.science.final_project_umbreon;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import aperture.science.final_project_umbreon.JSONObjects.Result;
+import aperture.science.final_project_umbreon.JSONObjects.Standings;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TabFragment1 extends Fragment {
 
@@ -57,11 +51,11 @@ public class TabFragment1 extends Fragment {
         view =  inflater.inflate(R.layout.tab_fragment_1, container, false);
         rvTab1 = (RecyclerView) view.findViewById(R.id.rvTab1);
 
-        sampleData.add("A");
+//        sampleData.add("A");
 
 
         // Create adapter passing in the sample user data
-        PairingsAdapter adapter = new PairingsAdapter(this, sampleData);
+        StandingsAdapter adapter = new StandingsAdapter(this, sampleData);
         // Attach the adapter to the recyclerview to populate items
         rvTab1.setAdapter(adapter);
         // Set layout manager to position the items
@@ -114,19 +108,22 @@ public class TabFragment1 extends Fragment {
                 GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
 
 
-        Call<Pairing> call = apiService.nasaList("apod");
-        call.enqueue(new Callback<Pairing>() {
+        Call<Standings> call = apiService.standingsList("getRankedTeamsJoin");
+        call.enqueue(new Callback<Standings>() {
             @Override
-            public void onResponse(Call<Pairing> call, Response<Pairing> response) {
-                Pairing pairing = response.body();
-                sampleData.add(pairing.getCopyright());
-
+            public void onResponse(Call<Standings> call, Response<Standings> response) {
+                Standings standings = response.body();
+                for(Result i : standings.getResults()){
+                    sampleData.add(i.getName());
+                }
+//                sampleData.add(standings.getResults());
+                Log.d("GavelGuide", standings.getResults().get(0).getMember1ID().getName()+"");
             }
 
             @Override
-            public void onFailure(Call<Pairing> call, Throwable t) {
+            public void onFailure(Call<Standings> call, Throwable t) {
                 // Log error here since request failed
-                Log.e("GabelGuide", t.toString());
+                Log.e("GavelGuide", t.toString());
             }
         });
 
