@@ -1,9 +1,10 @@
 package aperture.science.final_project_umbreon.JSONObjects;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Member1ID {
+public class Member1ID implements Serializable{
 
     private Integer id;
     private String name;

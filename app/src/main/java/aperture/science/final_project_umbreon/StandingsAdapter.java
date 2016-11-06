@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import aperture.science.final_project_umbreon.JSONObjects.Result;
+
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
 public class StandingsAdapter extends
@@ -40,12 +42,12 @@ public class StandingsAdapter extends
     }
 
     // Store a member variable for the contacts
-    private ArrayList<String> standingsData;
+    private ArrayList<Result> standingsData;
     // Store the context for easy access
     private Fragment mContext;
 
     // Pass in the contact array into the constructor
-    public StandingsAdapter(Fragment context, ArrayList<String> list) {
+    public StandingsAdapter(Fragment context, ArrayList<Result> list) {
         standingsData = list;
         mContext = context;
     }
@@ -75,11 +77,11 @@ public class StandingsAdapter extends
     @Override
     public void onBindViewHolder(StandingsAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        String stringy = standingsData.get(position);
+        Result resulty = standingsData.get(position);
 
         // Set item views based on your views and data model
         TextView textView = viewHolder.nameTextView;
-        textView.setText(stringy);
+        textView.setText(resulty.getName());
 
         textView.setClickable(true);
         textView.setActivated(true);
@@ -95,7 +97,7 @@ public class StandingsAdapter extends
         return standingsData.size();
     }
 
-    public ArrayList<String> getStandingsData(){
+    public ArrayList<Result> getStandingsData(){
         return standingsData;
     }
 }
