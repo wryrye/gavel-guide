@@ -42,6 +42,7 @@ public class TabFragment3 extends Fragment {
     private StandingsAdapter adapter;
     private View view;
     private ArrayList<Result> standings;
+    private MainActivity bigGuy;
 
 
 
@@ -50,7 +51,7 @@ public class TabFragment3 extends Fragment {
         super.onCreate(savedInstanceState);
 
         standings = new ArrayList<Result>();
-        MainActivity bigGuy = (MainActivity)getActivity();
+        bigGuy = (MainActivity)getActivity();
         standings = bigGuy.standings;
 
     }
@@ -100,6 +101,14 @@ public class TabFragment3 extends Fragment {
 
         rvTab3.setLayoutManager(mLayoutManager);
         rvTab3.scrollToPosition(scrollPosition);
+    }
+
+    public void updateData(){
+        standings = bigGuy.standings;
+        adapter.notifyDataSetChanged();
+        Log.d("yooo", "hello");
+
+
     }
 
     public RecyclerView getRV(){

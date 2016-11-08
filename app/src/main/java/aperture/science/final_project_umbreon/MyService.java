@@ -1,12 +1,19 @@
 package aperture.science.final_project_umbreon;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.os.Binder;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,11 +26,15 @@ import retrofit2.Response;
 
 public class MyService extends IntentService {
 
+    IBinder mBinder = new LocalBinder();
+
     private ArrayList<Result> data;
 
     public MyService(){
         super("MyService");
     }
+
+
 
     @Override
     protected void onHandleIntent(Intent workIntent) {
@@ -31,10 +42,24 @@ public class MyService extends IntentService {
 //        String dataString = workIntent.getDataString();
         data = new ArrayList<Result>();
         callAPI();
+
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
+    }
+
+    public class LocalBinder extends Binder {
+        public MyService getServerInstance() {
+            return MyService.this;
+        }
     }
 
 
+
     public void callAPI() {
+        data = new ArrayList<Result>();
         GavelGuideAPIInterface apiService =
                 GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
 
@@ -54,6 +79,7 @@ public class MyService extends IntentService {
                     }
                 });
                 broadcastStandings();
+                storeStandings();
 //                Log.e("GavelGuide", data+"");
             }
             @Override
@@ -64,9 +90,26 @@ public class MyService extends IntentService {
         });
     }
 
+    public void storeStandings(){
+        try {
+            String FILENAME = "standings";
+            FileOutputStream fos = getApplication().openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(data);
+            oos.close();
+        }catch(Exception e) {
+            Log.e("StoreFileError", e+"");
+        }
+        Log.d("Data", "is stored!");
+    }
+
     public void broadcastStandings(){
         Intent intent = new Intent("Standings"); //FILTER is a string to identify this intent
         intent.putExtra("Standings", data);
         sendBroadcast(intent);
+    }
+
+    public void testMethod(){
+        Log.d("test", "bind works!");
     }
 }
