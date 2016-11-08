@@ -28,6 +28,8 @@ public class StandingsAdapter extends
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView nameTextView;
+        public TextView winTextView;
+        public TextView lossTextView;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -37,6 +39,9 @@ public class StandingsAdapter extends
             super(itemView);
 
             nameTextView = (TextView) itemView.findViewById(R.id.pairing_name);
+            winTextView = (TextView) itemView.findViewById(R.id.wins);
+            lossTextView = (TextView) itemView.findViewById(R.id.losses);
+
 
         }
     }
@@ -86,6 +91,10 @@ public class StandingsAdapter extends
         textView.setClickable(true);
         textView.setActivated(true);
         textView.setEnabled(true);
+        TextView winView = viewHolder.winTextView;
+        winView.setText(resulty.getWins());
+        TextView lossView = viewHolder.lossTextView;
+        lossView.setText(resulty.getLosses());
 
 
 
