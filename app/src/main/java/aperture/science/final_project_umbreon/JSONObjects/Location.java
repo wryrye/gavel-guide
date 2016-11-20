@@ -10,6 +10,16 @@ public class Location implements Serializable {
 
     private String name;
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    private String address;
+
     public String getName() {
         return name;
     }

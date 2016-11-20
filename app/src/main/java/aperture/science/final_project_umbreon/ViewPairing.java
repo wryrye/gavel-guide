@@ -4,12 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,54 +89,12 @@ public class ViewPairing extends AppCompatActivity {
 
 
 //
-//              GsonBuilder builder = new GsonBuilder();
-//                Gson gson = builder.create();
-//                Log.e("Test1", "1");
-//                try {
-//                    Log.e("Test1", "2");
-//                    JSONObject obj = new JSONObject(response.body());
-//                    Log.e("Test1", "3");
-//                    JSONArray array = obj.getJSONArray("results");
-//                    Log.e("Test1", "4");
-//                    Log.e("Team 1",array.getJSONObject(0).getString("team1ID") );
-//                    team1 = gson.fromJson(array.getJSONObject(0).getString("team1ID"), Result.class);
-//                    //team1 = array.getJSONObject(0).getString("team1ID");
-//                    team2 = gson.fromJson(array.getJSONObject(0).getString("team2ID"), Result.class);
-//                    judge = gson.fromJson(array.getJSONObject(0).getString("judgeID"), Judge.class);
-//                    location = gson.fromJson(array.getJSONObject(0).getString("locationID"), Location.class);
 //
-//
-//
-//
-//
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//                team1 = response.body().getTeam1ID();
-//                team2 = response.body().getTeam2ID();
-//                judge = response.body().getJudgeID();
-//                location = response.body().getLocationID();
-                //Standings standings = response.body();
-                //Log.e("Response Body: ", String.valueOf(response.body()));
-                Log.e("Team 1: ", team1.getName());
                 Log.e("Team 2: ", team2.getName());
                 Log.e("Judge: ", judge.getName());
                 Log.e("Location: ", location.getName());
 
-//                for(Result i : standings.getResults()){
-//                    //data.add(i);
-//                }
-////                Collections.sort(data, new Comparator<Result>() {
-//                    @Override
-//                    public int compare(Result r1, Result r2)
-//                    {
-//                        return  r2.getWins().compareTo(r1.getWins());
-//                    }
-//                });
-                //broadcastStandings();
-                //storeStandings();
-//                Log.e("GavelGuide", data+"");
+//
             }
             @Override
             public void onFailure(Call<PairingResult> call, Throwable t) {
@@ -146,6 +106,17 @@ public class ViewPairing extends AppCompatActivity {
 
 
 
+    }
+
+
+    public void findDirections(View view){
+
+        //RICE HALL INFORMATION TECHNOLOGY ENGINEERING BUILDING
+        String uriString = "google.navigation:q=" + location.getAddress() + "&mode=w";
+        Uri gmmIntentUri = Uri.parse(uriString);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
 

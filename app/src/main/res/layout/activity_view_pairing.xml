@@ -30,4 +30,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
 
         android:id="@+id/location" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open Google Maps"
+        android:id="@+id/directinosButton"
+        android:onClick="findDirections"/>
 </LinearLayout>

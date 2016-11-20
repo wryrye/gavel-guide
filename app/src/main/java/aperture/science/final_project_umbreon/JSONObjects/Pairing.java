@@ -14,6 +14,16 @@ public class Pairing implements Serializable {
     private Judge judgeID;
     private Location locationID;
 
+    public String getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(String roundNumber) {
+        this.roundNumber = roundNumber;
+    }
+
+    private String roundNumber;
+
     public Judge getJudgeID() {
         return judgeID;
     }

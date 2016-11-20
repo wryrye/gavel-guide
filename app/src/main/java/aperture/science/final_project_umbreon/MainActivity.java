@@ -19,14 +19,21 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.List;
 
+import aperture.science.final_project_umbreon.JSONObjects.Pairing;
+import aperture.science.final_project_umbreon.JSONObjects.PairingResult;
 import aperture.science.final_project_umbreon.JSONObjects.Result;
 import aperture.science.final_project_umbreon.JSONObjects.Standings;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     PagerAdapter adapter;
     public String myString = "top secret!";
     ArrayList<Result> standings;
+    ArrayList<Pairing> currentRound;
     boolean mBounded;
     MyService mServer;
 
@@ -43,9 +51,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
+        ArrayList<Pairing> data2 = (ArrayList<Pairing>) intent.getSerializableExtra("CurrentRound");
+        Log.d("data2", data2.toString());
+        currentRound = data2;
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+//        GavelGuideAPIInterface apiService =
+//                GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
+//        Call<PairingResult> call = apiService.pairingCurrentRound();
+//        call.enqueue(new Callback<PairingResult>() {
+//            @Override
+//            public void onResponse(Call<PairingResult> call, Response<PairingResult> response) {
+//                PairingResult result = response.body();
+//                Log.d("results", result.toString());
+//                for(Pairing i : result.getResults()){
+//                    currentRound.add(i);
+//                }
+//                Log.d("After CurrentRoundCall", currentRound.size() + "");
+//
+//            }
+//            @Override
+//            public void onFailure(Call<PairingResult> call, Throwable t) {
+//                // Log error here since request failed
+//                Log.e("GavelGuide", t.toString());
+//            }
+//        });
+
+
 
         //listen for messages from API MyService
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -57,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
 //                TabFragment3 tf3 = (TabFragment3)adapter.getItem(2);
 //                if(tf3 != null)
 //                    tf3.updateData();
+                ArrayList<Pairing> data2 = (ArrayList<Pairing>) intent.getSerializableExtra("CurrentRound");
+                currentRound = data2;
             }
         };
         registerReceiver(broadcastReceiver, new IntentFilter("Standings"));
@@ -178,6 +216,13 @@ public class MainActivity extends AppCompatActivity {
     public void viewPairing(View view){
         Intent intent = new Intent(this, ViewPairing.class);
         startActivity(intent);
+    }
+
+    public ArrayList<Pairing> getCurrentRoundPairings(){
+        return currentRound;
+    }
+    public void viewPairingInfo(View view){
+        TextView currentItem = (TextView)view;
     }
 
 }

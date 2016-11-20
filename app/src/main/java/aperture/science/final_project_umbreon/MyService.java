@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import aperture.science.final_project_umbreon.JSONObjects.Pairing;
+import aperture.science.final_project_umbreon.JSONObjects.PairingResult;
 import aperture.science.final_project_umbreon.JSONObjects.Result;
 import aperture.science.final_project_umbreon.JSONObjects.Standings;
 import retrofit2.Call;
@@ -29,6 +31,7 @@ public class MyService extends IntentService {
     IBinder mBinder = new LocalBinder();
 
     private ArrayList<Result> data;
+    private ArrayList<Pairing> currentRound;
 
     public MyService(){
         super("MyService");
@@ -58,6 +61,7 @@ public class MyService extends IntentService {
 
 
 
+
     public void callAPI() {
         data = new ArrayList<Result>();
         GavelGuideAPIInterface apiService =
@@ -78,8 +82,9 @@ public class MyService extends IntentService {
                         return  r2.getWins().compareTo(r1.getWins());
                     }
                 });
-                broadcastStandings();
-                storeStandings();
+                callCurrentRoundParings();
+//                broadcastStandings();
+//                storeStandings();
 //                Log.e("GavelGuide", data+"");
             }
             @Override
@@ -90,6 +95,30 @@ public class MyService extends IntentService {
         });
     }
 
+    public void callCurrentRoundParings() {
+        currentRound = new ArrayList<Pairing>();
+        GavelGuideAPIInterface apiService =
+                GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
+
+        Call<PairingResult> call = apiService.pairingCurrentRound();
+        call.enqueue(new Callback<PairingResult>() {
+            @Override
+            public void onResponse(Call<PairingResult> call, Response<PairingResult> response) {
+                PairingResult pairings = response.body();
+                for(Pairing i : pairings.getResults()){
+                    currentRound.add(i);
+                }
+                broadcastStandings();
+                storeStandings();
+//                Log.e("GavelGuide", data+"");
+            }
+            @Override
+            public void onFailure(Call<PairingResult> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("GavelGuide", t.toString());
+            }
+        });
+    }
     public void storeStandings(){
         try {
             String FILENAME = "standings";
@@ -106,6 +135,7 @@ public class MyService extends IntentService {
     public void broadcastStandings(){
         Intent intent = new Intent("Standings"); //FILTER is a string to identify this intent
         intent.putExtra("Standings", data);
+        intent.putExtra("CurrentRound", currentRound);
         sendBroadcast(intent);
     }
 
