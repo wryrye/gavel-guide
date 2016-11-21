@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
 
         GavelGuideAPIInterface apiService =
                 GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
-        Call<PairingResult> call = apiService.pairingCurrentRound();
+        Call<PairingResult> call = apiService.pairingAll();
         call.enqueue(new Callback<PairingResult>() {
             @Override
             public void onResponse(Call<PairingResult> call, Response<PairingResult> response) {
@@ -50,6 +50,7 @@ public class SplashActivity extends AppCompatActivity {
 
     }
     public void startMainActivity(){
+        ((PairingArray) this.getApplication()).setUpPairings(pairings);
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra("CurrentRound", pairings);
         startActivity(i);

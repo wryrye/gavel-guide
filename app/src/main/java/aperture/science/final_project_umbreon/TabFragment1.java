@@ -32,7 +32,7 @@ public class TabFragment1 extends Fragment {
     protected LayoutManagerType mCurrentLayoutManagerType;
     protected RecyclerView.LayoutManager mLayoutManager;
 
-    private EditText nameField;
+
     private RecyclerView rvTab1;
     private PairingAdapter adapter;
     private View view;
@@ -45,39 +45,18 @@ public class TabFragment1 extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        pairings = new ArrayList<Pairing>();
-        bigGuy = (MainActivity)getActivity();
-//        GavelGuideAPIInterface apiService =
-//                GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
-//        Call<PairingResult> call = apiService.pairingCurrentRound();
-//        call.enqueue(new Callback<PairingResult>() {
-//            @Override
-//            public void onResponse(Call<PairingResult> call, Response<PairingResult> response) {
-//                PairingResult result = response.body();
-//                Log.d("results", result.toString());
-//                for(Pairing i : result.getResults()){
-//                    pairings.add(i);
-//                }
-//                Log.d("After CurrentRoundCall", pairings.size() + "");
-//
-//            }
-//            @Override
-//            public void onFailure(Call<PairingResult> call, Throwable t) {
-//                // Log error here since request failed
-//                Log.e("GavelGuide", t.toString());
-//            }
-//        });
-        pairings = bigGuy.currentRound;
         //Log.d("After CurrentRoundCall", pairings.size() + "");
 
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        pairings = new ArrayList<Pairing>();
-        bigGuy = (MainActivity)getActivity();
-        pairings = bigGuy.getCurrentRoundPairings();
+//        pairings = new ArrayList<Pairing>();
+//        bigGuy = (MainActivity)getActivity();
+//        pairings = bigGuy.getCurrentRoundPairings();
         view =  inflater.inflate(R.layout.tab_fragment_1, container, false);
         rvTab1 = (RecyclerView) view.findViewById(R.id.rvTab1);
+
+        pairings = ((PairingArray) getActivity().getApplication()).getCurrentRoundPairings();
         //Log.d("In TabFragment1", pairings.toString());
         // Create adapter passing in the sample user data (only first time)
         if(adapter == null) {

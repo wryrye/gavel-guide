@@ -26,6 +26,10 @@ public interface GavelGuideAPIInterface {
     @GET("getCurrentRoundPairings")
     Call<PairingResult> pairingCurrentRound();
 
+    @GET("getAllPairings")
+    Call<PairingResult> pairingAll();
+
+
 
 
 }

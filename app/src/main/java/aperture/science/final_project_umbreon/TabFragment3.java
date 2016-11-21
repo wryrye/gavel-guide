@@ -62,6 +62,7 @@ public class TabFragment3 extends Fragment {
 
         // Create adapter passing in the sample user data (only first time)
         if(adapter == null) {
+            Log.d("Standings Length", standings.size() + "");
             adapter = new StandingsAdapter(this, standings);
         }
         // Attach the adapter to the recyclerview to populate items
