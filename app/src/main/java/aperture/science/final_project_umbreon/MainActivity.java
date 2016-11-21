@@ -214,7 +214,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void viewPairing(View view){
+
         Intent intent = new Intent(this, ViewPairing.class);
+        intent.putExtra("id", "1");
+        startActivity(intent);
+    }
+    public void viewPairing2(View view){
+
+        Intent intent = new Intent(this, ViewPairing.class);
+        intent.putExtra("id", "2");
         startActivity(intent);
     }
 

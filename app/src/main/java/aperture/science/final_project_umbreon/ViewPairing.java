@@ -1,32 +1,15 @@
 package aperture.science.final_project_umbreon;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import aperture.science.final_project_umbreon.JSONObjects.Judge;
@@ -34,7 +17,6 @@ import aperture.science.final_project_umbreon.JSONObjects.Location;
 import aperture.science.final_project_umbreon.JSONObjects.Pairing;
 import aperture.science.final_project_umbreon.JSONObjects.PairingResult;
 import aperture.science.final_project_umbreon.JSONObjects.Result;
-import aperture.science.final_project_umbreon.JSONObjects.Standings;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,14 +34,21 @@ public class ViewPairing extends AppCompatActivity {
     TextView team2Text;
     TextView judgeText;
     TextView locationText;
+    ImageView locationImage;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pairing);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
         GavelGuideAPIInterface apiService =
                 GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
         Log.e("Test1", "1");
-        Call<PairingResult> call = apiService.pairing("1");
+        Call<PairingResult> call = apiService.pairing(id);
         Log.e("Test1", "1");
         call.enqueue(new Callback<PairingResult>() {
             @Override
@@ -85,6 +74,19 @@ public class ViewPairing extends AppCompatActivity {
 
                 locationText = (TextView) findViewById(R.id.location);
                 locationText.setText(location.getName());
+
+                locationImage = (ImageView) findViewById(R.id.locationImage);
+                if(location.getName().equals("Rotunda")){
+                    locationImage.setImageResource(R.drawable.rotunda);
+                } else if(location.getName().equals("Olsson 120")){
+                    locationImage.setImageResource(R.drawable.olsson);
+                } else if(location.getName().equals("Newcomb Auditorium")){
+                    locationImage.setImageResource(R.drawable.newcomb);
+                } else if(location.getName().equals("New Cabell 444")){
+                    locationImage.setImageResource(R.drawable.new_cabell);
+                } else {
+                    locationImage.setImageResource(R.drawable.rice);
+                }
 
 
 
