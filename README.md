@@ -15,8 +15,8 @@ Changes from last milestone:
 - Add data storage for all API calls  
 
 
-Requirements:
-GPS
+Requirements:  
+GPS  
 -Intent to open Google Maps and provide directions to the round location added to the pairings info screens
 
 Local Data Storage:
