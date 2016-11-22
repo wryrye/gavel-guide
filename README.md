@@ -28,12 +28,13 @@ All endpoints constructed and added to the web service described in the readme
 Endpoints include:
 -Get current standings
 -Get all pairings information
--Get more specific info about one pairing
-*  
-*  
-*  
-*  
-*  
+-Get more specific info about one pairing  
+
+/  
+/  
+/  
+/  
+/  
 
 Milestone #2
 Our Custom Web Service:
