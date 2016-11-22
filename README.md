@@ -1,5 +1,5 @@
 # final-project-umbreon
-Milestone #3
+Milestone #3  
 Changes from last milestone:
 -Added API call to get all of the pairings
 -Created an application array to hold all of these pairings to be used throughout the app
@@ -50,4 +50,3 @@ Local Data Storage:
 
 User requirements:
 - Presents standings in sorted fashion
-- Provides "Refresh" button for latest updates (EXPERIMENTAL: DON'T USE IT)
