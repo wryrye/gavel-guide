@@ -31,7 +31,6 @@ Endpoints include:
 -Get more specific info about one pairing
 
 Milestone #2
-
 Our Custom Web Service:
 
 Code found here: https://github.com/bjw4ph/GavelGuide  
