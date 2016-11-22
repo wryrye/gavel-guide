@@ -29,10 +29,10 @@ Endpoints include:
 -Get current standings
 -Get all pairings information
 -Get more specific info about one pairing
-
-
-
-
+  
+  
+  
+  
 Milestone #2
 Our Custom Web Service:
 
