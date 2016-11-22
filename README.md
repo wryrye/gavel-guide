@@ -1,18 +1,18 @@
 # final-project-umbreon
 Milestone #3  
 Changes from last milestone:
--Added API call to get all of the pairings
--Created an application array to hold all of these pairings to be used throughout the app
--Added methods in pairing arrays class to disntiguish between current round pairings and previous results
--Created RecyclerView and PairingAdapter to display the pairings for the current round in the first tab of the main screen
--Created RecyclerView and PairingAdapter to display the pairings for previous results in the second tab of the main screen
--Added Splash Screen to make sure API call is returned before starting the main activity
--Added API call to display the information for a current round pairing
--Display the information for a current round pairing in new activity screen called ViewPairing
-	-onClick method for these items not currently working, please do not press those at this time since it will cause the app to crash
-	-To get to the pairings page, there are buttons underneath recyclerview in the Pairings Tab (onClick for the pairings does not work currently, but will work in the final build)
--Add button which sends an intent to the Google Maps App to display walking directions to the pairing location
--Add data storage for all API calls
+-Added API call to get all of the pairings  
+-Created an application array to hold all of these pairings to be used throughout the app  
+-Added methods in pairing arrays class to disntiguish between current round pairings and previous results  
+-Created RecyclerView and PairingAdapter to display the pairings for the current round in the first tab of the main screen  
+-Created RecyclerView and PairingAdapter to display the pairings for previous results in the second tab of the main screen  
+-Added Splash Screen to make sure API call is returned before starting the main activity  
+-Added API call to display the information for a current round pairing  
+-Display the information for a current round pairing in new activity screen called ViewPairing  
+	-onClick method for these items not currently working, please do not press those at this time since it will cause the app to crash  
+	-To get to the pairings page, there are buttons underneath recyclerview in the Pairings Tab (onClick for the pairings does not work currently, but will work in the final build)  
+-Add button which sends an intent to the Google Maps App to display walking directions to the pairing location  
+-Add data storage for all API calls  
 
 
 Requirements:
