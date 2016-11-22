@@ -14,13 +14,15 @@ import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import aperture.science.final_project_umbreon.JSONObjects.Pairing;
 import aperture.science.final_project_umbreon.JSONObjects.Result;
-/**
- * Created by Brandon on 11/20/2016.
- */
+
+
 public class SplashActivity extends AppCompatActivity {
 
     private ArrayList<Pairing> pairings;
@@ -37,64 +39,83 @@ public class SplashActivity extends AppCompatActivity {
         pairings = new ArrayList<Pairing>();
         standings = new ArrayList<Result>();
 
-        Intent myServiceIntent = new Intent(this, MyService.class); //start service
-        startService(myServiceIntent);
+        if (!isNetworkAvailable()) {//if no network available
+            try { //try to load backup
+                String FILENAME = "standings";
+                FileInputStream fis = openFileInput(FILENAME);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                standings = (ArrayList<Result>) ois.readObject(); //set data to be retreived by Fragment3
+                ois.close();
+                Log.d("Data-Standings", "is from backup file");
 
-        mConnection = new ServiceConnection() { //start connecting to service
-
-            public void onServiceDisconnected(ComponentName name) {
-                Toast.makeText(SplashActivity.this, "Service is disconnected", Toast.LENGTH_SHORT).show();
-                mBounded = false;
-                mServer = null;
+                String FILENAME2 = "pairings";
+                FileInputStream fis2 = openFileInput(FILENAME2);
+                ObjectInputStream ois2 = new ObjectInputStream(fis2);
+                pairings = (ArrayList<Pairing>) ois2.readObject(); //set data to be retreived by Fragment3
+                ois2.close();
+                Log.d("Data-Pairings", "is from backup file");
+                Toast.makeText(SplashActivity.this, "Data from backup file!", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) { //if there is an error, inform user and make dummy data object
+                Log.e("LoadFileError", e + "");
+                standings = new ArrayList<Result>();
+                Context context = getApplicationContext();
+                CharSequence text = "No internet or backup file!";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+                Log.d("Data", "is not available!");
             }
+            startMainActivity(); //and go to MainActivity
 
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                Toast.makeText(SplashActivity.this, "Service is connected", Toast.LENGTH_SHORT).show();
-                mBounded = true;
-                MyService.LocalBinder mLocalBinder = (MyService.LocalBinder)service;
-                mServer = mLocalBinder.getServerInstance();
+        } else { //if network is available...
+            Intent myServiceIntent = new Intent(this, MyService.class); //start API service
+            startService(myServiceIntent);
 
-                Intent intent = new Intent("Splash"); //broadcast when service is successfully connected
-                intent.putExtra("ServiceMade", "Yes");
-                sendBroadcast(intent);
-            }
-        };
+            mConnection = new ServiceConnection() { //start connecting to service
 
+                public void onServiceDisconnected(ComponentName name) {
+//                    Toast.makeText(SplashActivity.this, "Splash service is disconnected", Toast.LENGTH_SHORT).show();
+                    mBounded = false;
+                    mServer = null;
+                }
 
+                public void onServiceConnected(ComponentName name, IBinder service) {
+//                    Toast.makeText(SplashActivity.this, "Splash service is connected", Toast.LENGTH_SHORT).show();
+                    mBounded = true;
+                    MyService.LocalBinder mLocalBinder = (MyService.LocalBinder) service;
+                    mServer = mLocalBinder.getServerInstance();
 
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) { //once connected...
-                if(intent.hasExtra("ServiceMade")){
-                    if(isNetworkAvailable()){ //make API calls if network
+                    Intent intent = new Intent("Splash"); //broadcast when service is successfully connected
+                    intent.putExtra("ServiceMade", "Yes");
+                    sendBroadcast(intent);
+                }
+            };
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) { //once connected...
+                    if (intent.hasExtra("ServiceMade")) {
                         mServer.getAllPairings();
                         mServer.getStandings();
-                    }
-                    else{ //otherwise go to MainActivity
-                        startMainActivity();
+                    } else if (intent.hasExtra("Standings")) { //store result from getStandings response, startMainActivity() if both requests have completed
+                        ArrayList<Result> data = (ArrayList<Result>) intent.getSerializableExtra("Standings");
+                        standings = data;
+                        if (returnCount == 1) {
+                            startMainActivity();
+                        }
+                        returnCount++;
+                    } else {   //store result from getAllPairings response, startMainActivity() if both requests have completed
+                        ArrayList<Pairing> data = (ArrayList<Pairing>) intent.getSerializableExtra("AllPairings");
+                        pairings = data;
+                        if (returnCount == 1) {
+                            startMainActivity();
+                        }
+                        returnCount++;
                     }
                 }
-                else if(intent.hasExtra("Standings")){ //store result from getStandings response, startMainActivity() if both requests have completed
-                    ArrayList<Result> data = (ArrayList<Result>) intent.getSerializableExtra("Standings");
-                    standings = data;
-                    Log.d("Returnct", returnCount+"");
-                    if(returnCount == 1){
-                        startMainActivity();
-                    }
-                    returnCount++;
-                }
-                else{   //store result from getAllPairings response, startMainActivity() if both requests have completed
-                    ArrayList<Pairing> data = (ArrayList<Pairing>) intent.getSerializableExtra("AllPairings");
-                    pairings = data;
-                    Log.d("Returnct", returnCount+"");
-                    if(returnCount ==1){
-                        startMainActivity();
-                    }
-                    returnCount++;
-                }
-            }
-        };
-        registerReceiver(broadcastReceiver, new IntentFilter("Splash")); //register receiver to listen to broadcasts
+            };
+            registerReceiver(broadcastReceiver, new IntentFilter("Splash")); //register receiver to listen to broadcasts
+            Toast.makeText(SplashActivity.this, "Data from web server!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -102,13 +123,16 @@ public class SplashActivity extends AppCompatActivity {
         super.onStart();
         Intent mIntent = new Intent(this, MyService.class);
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);
-        Log.d("Service test", mServer+"");
     }
 
     @Override
     protected void onPause() { //unregister receiver on pause
         super.onPause();
-        unregisterReceiver(broadcastReceiver);
+        try {
+            unregisterReceiver(broadcastReceiver);
+        }catch (Exception e){
+
+        }
     }
 
     @Override

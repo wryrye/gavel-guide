@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     boolean mBounded;
     MyService mServer;
     BroadcastReceiver broadcastReceiver;
+    private ServiceConnection mConnection;
 
 
 
@@ -52,62 +53,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = getIntent();
-        ArrayList<Pairing> data2 = (ArrayList<Pairing>) intent.getSerializableExtra("CurrentRound");
-        Log.d("data2", data2.toString());
-        currentRound = data2;
 
-
+        //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//
+        Intent myServiceIntent = new Intent(this, MyService.class); //start API service
+        startService(myServiceIntent);
 
+        mConnection = new ServiceConnection() { //start connecting to service
 
-        //listen for messages from API MyService
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                ArrayList<Result> data = (ArrayList<Result>) intent.getSerializableExtra("Standings");
-                standings = data; //set data to be retreived by Fragment3
-                Log.d("Data","is from API");
-                Log.d("Data",standings+"yo");
-//                TabFragment3 tf3 = (TabFragment3)adapter.getItem(2);
-//                if(tf3 != null)
-//                    tf3.updateData();
-                ArrayList<Pairing> data2 = (ArrayList<Pairing>) intent.getSerializableExtra("CurrentRound");
-                currentRound = data2;
+            public void onServiceDisconnected(ComponentName name) {
+//                Toast.makeText(MainActivity.this, "Main service is disconnected", Toast.LENGTH_SHORT).show();
+                mBounded = false;
+                mServer = null;
+            }
+
+            public void onServiceConnected(ComponentName name, IBinder service) {
+//                Toast.makeText(MainActivity.this, "Main service is connected", Toast.LENGTH_SHORT).show();
+                mBounded = true;
+                MyService.LocalBinder mLocalBinder = (MyService.LocalBinder) service;
+                mServer = mLocalBinder.getServerInstance();
+
+                Intent intent = new Intent("Splash"); //broadcast when service is successfully connected
+                intent.putExtra("ServiceMade", "Yes");
+                sendBroadcast(intent);
             }
         };
-        registerReceiver(broadcastReceiver, new IntentFilter("Standings"));
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) { //once connected...
 
-        //if network is available...
-        if (isNetworkAvailable()) {
-            //start API MyService
-            Intent myServiceIntent = new Intent(this, MyService.class);
-            startService(myServiceIntent);
-        }
-        else{ //search for a backup file
-            try {
-                String FILENAME = "standings";
-                FileInputStream fis = openFileInput(FILENAME);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                standings =(ArrayList<Result>) ois.readObject(); //set data to be retreived by Fragment3
-                ois.close();
-                Log.d("Data","is from backup file");
-            }catch(Exception e) { //if there is an error, inform user and make dummy data object
-                Log.e("LoadFileError", e+"");
-                standings = new ArrayList<Result>();
-                Context context = getApplicationContext();
-                CharSequence text = "No internet or backup file!";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-                Log.d("Data","is not available!");
             }
-
-        }
-
+        };
+        registerReceiver(broadcastReceiver, new IntentFilter("Splash")); //register receiver to listen to broadcasts
 
         //make tabs
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -119,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         adapter = new PagerAdapter (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
-
-
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -145,8 +122,6 @@ public class MainActivity extends AppCompatActivity {
 //                bob.getRV().getAdapter().notifyDataSetChanged();
             }
         });
-
-
     }
 
     @Override
@@ -154,30 +129,16 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         Intent mIntent = new Intent(this, MyService.class);
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);
-
-//
     }
-
-    ServiceConnection mConnection = new ServiceConnection() {
-
-        public void onServiceDisconnected(ComponentName name) {
-            Toast.makeText(MainActivity.this, "Service is disconnected", Toast.LENGTH_SHORT).show();
-            mBounded = false;
-            mServer = null;
-        }
-
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Toast.makeText(MainActivity.this, "Service is connected", Toast.LENGTH_SHORT).show();
-            mBounded = true;
-            MyService.LocalBinder mLocalBinder = (MyService.LocalBinder)service;
-            mServer = mLocalBinder.getServerInstance();
-        }
-    };
 
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(broadcastReceiver);
+        try {
+            unregisterReceiver(broadcastReceiver);
+        }catch (Exception e){
+
+        }
     }
 
     @Override
@@ -198,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void refreshData(View view){
         mServer.callAPI();
-
     }
 
     public void viewPairing(View view){
@@ -219,6 +179,21 @@ public class MainActivity extends AppCompatActivity {
     }
     public void viewPairingInfo(View view){
         TextView currentItem = (TextView)view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+
+//        savedInstanceState.putBoolean("MyBoolean", true);
+//        savedInstanceState.putDouble("myDouble", 1.9);
+//        savedInstanceState.putInt("MyInt", 1);
+//        savedInstanceState.putString("MyString", "Welcome back to Android");
+        // etc.
+        super.onSaveInstanceState(savedInstanceState);
     }
 
 }

@@ -78,9 +78,6 @@ public class MyService extends IntentService {
                     }
                 });
                 callCurrentRoundParings();
-//                broadcastStandings();
-//                storeStandings();
-//                Log.e("GavelGuide", data+"");
             }
             @Override
             public void onFailure(Call<Standings> call, Throwable t) {
@@ -102,6 +99,7 @@ public class MyService extends IntentService {
                     pairings.add(i);
                 }
                 broadcastPairings();
+                storePairings();
             }
             @Override
             public void onFailure(Call<PairingResult> call, Throwable t) {
@@ -152,7 +150,6 @@ public class MyService extends IntentService {
                 }
                 broadcastStandings();
                 storeStandings();
-//                Log.e("GavelGuide", data+"");
             }
             @Override
             public void onFailure(Call<PairingResult> call, Throwable t) {
@@ -167,6 +164,19 @@ public class MyService extends IntentService {
             FileOutputStream fos = getApplication().openFileOutput(FILENAME, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(data);
+            oos.close();
+        }catch(Exception e) {
+            Log.e("StoreFileError", e+"");
+        }
+        Log.d("Data", "is stored!");
+    }
+
+    public void storePairings(){
+        try {
+            String FILENAME = "pairings";
+            FileOutputStream fos = getApplication().openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(pairings);
             oos.close();
         }catch(Exception e) {
             Log.e("StoreFileError", e+"");

@@ -26,16 +26,16 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Refresh"
-            android:id="@+id/button"
-            android:layout_gravity="right|center_vertical"
-            android:elevation="6dp"
-            android:backgroundTint="#ff0000"
-            android:onClick="refreshData"
-            />
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Refresh"-->
+            <!--android:id="@+id/button"-->
+            <!--android:layout_gravity="right|center_vertical"-->
+            <!--android:elevation="6dp"-->
+            <!--android:backgroundTint="#ff0000"-->
+            <!--android:onClick="refreshData"-->
+            <!--/>-->
 
 
 

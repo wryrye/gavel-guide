@@ -1,5 +1,6 @@
 package aperture.science.final_project_umbreon;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -104,21 +106,26 @@ public class ViewPairing extends AppCompatActivity {
                 Log.e("GavelGuide", t.toString());
             }
         });
-
-
-
-
     }
-
-
     public void findDirections(View view){
 
         //RICE HALL INFORMATION TECHNOLOGY ENGINEERING BUILDING
-        String uriString = "google.navigation:q=" + location.getAddress() + "&mode=w";
-        Uri gmmIntentUri = Uri.parse(uriString);
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-        startActivity(mapIntent);
+        try{
+            String uriString = "google.navigation:q=" + location.getAddress() + "&mode=w";
+            Uri gmmIntentUri = Uri.parse(uriString);
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+        }catch (NullPointerException e){
+            Context context = getApplicationContext();
+            CharSequence text = "Error: Maybe no internet?";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+
+        }
+
     }
 
 
