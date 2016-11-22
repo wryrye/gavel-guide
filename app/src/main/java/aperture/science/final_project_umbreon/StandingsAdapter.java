@@ -103,7 +103,7 @@ public class StandingsAdapter extends
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return standingsData.size();
+        return standingsData == null ? 0 : standingsData.size();
     }
 
     public ArrayList<Result> getStandingsData(){

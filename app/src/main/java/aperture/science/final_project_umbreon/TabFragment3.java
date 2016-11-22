@@ -50,9 +50,10 @@ public class TabFragment3 extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        standings = new ArrayList<Result>();
-        bigGuy = (MainActivity)getActivity();
-        standings = bigGuy.standings;
+//        standings = new ArrayList<Result>();
+//        bigGuy = (MainActivity)getActivity();
+//        standings = bigGuy.standings;
+//        Log.d("TF3100yrs",standings+"");
 
     }
 
@@ -60,9 +61,15 @@ public class TabFragment3 extends Fragment {
         view =  inflater.inflate(R.layout.tab_fragment_3, container, false);
         rvTab3 = (RecyclerView) view.findViewById(R.id.rvTab3);
 
+        standings = ((PairingArray) getActivity().getApplication()).getStandings();
+
+
+//        bigGuy = (MainActivity)getActivity();
+//        standings = bigGuy.standings;
+//        Log.d("Data TF3", standings+ "");
         // Create adapter passing in the sample user data (only first time)
         if(adapter == null) {
-            Log.d("Standings Length", standings.size() + "");
+//            Log.d("Data TF3", standings+ "");
             adapter = new StandingsAdapter(this, standings);
         }
         // Attach the adapter to the recyclerview to populate items
@@ -125,5 +132,13 @@ public class TabFragment3 extends Fragment {
             Log.d("GavelGuide", "Not ready!");
         }
         return test;
+    }
+
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            //Restore the fragment's state here
+        }
     }
 }
