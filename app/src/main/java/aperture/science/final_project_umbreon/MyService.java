@@ -31,20 +31,18 @@ public class MyService extends IntentService {
     IBinder mBinder = new LocalBinder();
 
     private ArrayList<Result> data;
+    private ArrayList<Pairing> pairings;
     private ArrayList<Pairing> currentRound;
 
     public MyService(){
         super("MyService");
     }
 
-
-
     @Override
     protected void onHandleIntent(Intent workIntent) {
-        // Gets data from the incoming Intent
-//        String dataString = workIntent.getDataString();
+        pairings = new ArrayList<Pairing>();
         data = new ArrayList<Result>();
-        callAPI();
+//        callAPI();
 
     }
 
@@ -58,9 +56,6 @@ public class MyService extends IntentService {
             return MyService.this;
         }
     }
-
-
-
 
     public void callAPI() {
         data = new ArrayList<Result>();
@@ -85,6 +80,53 @@ public class MyService extends IntentService {
                 callCurrentRoundParings();
 //                broadcastStandings();
 //                storeStandings();
+//                Log.e("GavelGuide", data+"");
+            }
+            @Override
+            public void onFailure(Call<Standings> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("GavelGuide", t.toString());
+            }
+        });
+    }
+    public void getAllPairings(){
+        GavelGuideAPIInterface apiService =
+                GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
+        Call<PairingResult> call = apiService.pairingAll();
+        call.enqueue(new Callback<PairingResult>() {
+            @Override
+            public void onResponse(Call<PairingResult> call, Response<PairingResult> response) {
+                PairingResult result = response.body();
+                Log.d("results", result.toString());
+                for(Pairing i : result.getResults()){
+                    pairings.add(i);
+                }
+                broadcastPairings();
+            }
+            @Override
+            public void onFailure(Call<PairingResult> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("GavelGuide", t.toString()+"Splash");
+            }
+        });
+    }
+
+    public void getStandings() {
+        data = new ArrayList<Result>();
+        GavelGuideAPIInterface apiService =
+                GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
+
+        Call<Standings> call = apiService.standingsList("getRankedTeamsJoin");
+        call.enqueue(new Callback<Standings>() {
+            @Override
+            public void onResponse(Call<Standings> call, Response<Standings> response) {
+                Standings standings = response.body();
+                for(Result i : standings.getResults()){
+                    data.add(i);
+                }
+
+                broadcastStandings2();
+                storeStandings();
 //                Log.e("GavelGuide", data+"");
             }
             @Override
@@ -136,6 +178,18 @@ public class MyService extends IntentService {
         Intent intent = new Intent("Standings"); //FILTER is a string to identify this intent
         intent.putExtra("Standings", data);
         intent.putExtra("CurrentRound", currentRound);
+        sendBroadcast(intent);
+    }
+
+    public void broadcastStandings2(){
+        Intent intent = new Intent("Splash"); //FILTER is a string to identify this intent
+        intent.putExtra("Standings", data);
+        sendBroadcast(intent);
+    }
+
+    public void broadcastPairings(){
+        Intent intent = new Intent("Splash"); //FILTER is a string to identify this intent
+        intent.putExtra("AllPairings", pairings);
         sendBroadcast(intent);
     }
 

@@ -5,15 +5,25 @@ import android.app.Application;
 import java.util.ArrayList;
 
 import aperture.science.final_project_umbreon.JSONObjects.Pairing;
+import aperture.science.final_project_umbreon.JSONObjects.Result;
 
 /**
  * Created by Brandon on 11/20/2016.
  */
 public class PairingArray extends Application {
     private ArrayList<Pairing> pairings;
+    private ArrayList<Result> standings;
+
 
     public void setUpPairings(ArrayList<Pairing> results){
         pairings = results;
+    }
+    public void setUpStandings(ArrayList<Result> results){
+        standings = results;
+    }
+
+    public ArrayList<Result> getStandings(){
+        return standings;
     }
 
     public ArrayList<Pairing> getCurrentRoundPairings(){

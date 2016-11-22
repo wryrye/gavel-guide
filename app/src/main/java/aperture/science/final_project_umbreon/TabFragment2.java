@@ -39,6 +39,8 @@ public class TabFragment2 extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
+        Log.d("TF2", pairings+"");
+
         //Log.d("After CurrentRoundCall", pairings.size() + "");
 
     }
@@ -53,6 +55,8 @@ public class TabFragment2 extends Fragment {
         Log.d("rvTab2", rvTab2.toString());
 
         pairings = ((PairingArray) getActivity().getApplication()).getPreviousResults();
+
+        Log.d("TF2 aft", pairings+"");
         //Log.d("In TabFragment1", pairings.toString());
         // Create adapter passing in the sample user data (only first time)
         if(adapter == null) {

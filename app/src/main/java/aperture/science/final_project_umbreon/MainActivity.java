@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Pairing> currentRound;
     boolean mBounded;
     MyService mServer;
+    BroadcastReceiver broadcastReceiver;
 
 
 
@@ -60,36 +61,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        GavelGuideAPIInterface apiService =
-//                GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
-//        Call<PairingResult> call = apiService.pairingCurrentRound();
-//        call.enqueue(new Callback<PairingResult>() {
-//            @Override
-//            public void onResponse(Call<PairingResult> call, Response<PairingResult> response) {
-//                PairingResult result = response.body();
-//                Log.d("results", result.toString());
-//                for(Pairing i : result.getResults()){
-//                    currentRound.add(i);
-//                }
-//                Log.d("After CurrentRoundCall", currentRound.size() + "");
 //
-//            }
-//            @Override
-//            public void onFailure(Call<PairingResult> call, Throwable t) {
-//                // Log error here since request failed
-//                Log.e("GavelGuide", t.toString());
-//            }
-//        });
-
 
 
         //listen for messages from API MyService
-        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 ArrayList<Result> data = (ArrayList<Result>) intent.getSerializableExtra("Standings");
                 standings = data; //set data to be retreived by Fragment3
                 Log.d("Data","is from API");
+                Log.d("Data",standings+"yo");
 //                TabFragment3 tf3 = (TabFragment3)adapter.getItem(2);
 //                if(tf3 != null)
 //                    tf3.updateData();
@@ -191,6 +173,12 @@ public class MainActivity extends AppCompatActivity {
             mServer = mLocalBinder.getServerInstance();
         }
     };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
 
     @Override
     protected void onStop() {
