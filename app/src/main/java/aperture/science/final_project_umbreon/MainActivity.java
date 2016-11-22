@@ -61,27 +61,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        GavelGuideAPIInterface apiService =
-//                GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
-//        Call<PairingResult> call = apiService.pairingCurrentRound();
-//        call.enqueue(new Callback<PairingResult>() {
-//            @Override
-//            public void onResponse(Call<PairingResult> call, Response<PairingResult> response) {
-//                PairingResult result = response.body();
-//                Log.d("results", result.toString());
-//                for(Pairing i : result.getResults()){
-//                    currentRound.add(i);
-//                }
-//                Log.d("After CurrentRoundCall", currentRound.size() + "");
 //
-//            }
-//            @Override
-//            public void onFailure(Call<PairingResult> call, Throwable t) {
-//                // Log error here since request failed
-//                Log.e("GavelGuide", t.toString());
-//            }
-//        });
-
 
 
         //listen for messages from API MyService

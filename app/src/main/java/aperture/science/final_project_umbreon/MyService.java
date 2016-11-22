@@ -38,12 +38,8 @@ public class MyService extends IntentService {
         super("MyService");
     }
 
-
-
     @Override
     protected void onHandleIntent(Intent workIntent) {
-        // Gets data from the incoming Intent
-//        String dataString = workIntent.getDataString();
         pairings = new ArrayList<Pairing>();
         data = new ArrayList<Result>();
 //        callAPI();
@@ -60,9 +56,6 @@ public class MyService extends IntentService {
             return MyService.this;
         }
     }
-
-
-
 
     public void callAPI() {
         data = new ArrayList<Result>();

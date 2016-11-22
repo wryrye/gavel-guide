@@ -14,22 +14,15 @@ import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
 import aperture.science.final_project_umbreon.JSONObjects.Pairing;
-import aperture.science.final_project_umbreon.JSONObjects.PairingResult;
 import aperture.science.final_project_umbreon.JSONObjects.Result;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /**
  * Created by Brandon on 11/20/2016.
  */
 public class SplashActivity extends AppCompatActivity {
 
-    private final int SPLASH_DISPLAY_LENGTH = 000;
     private ArrayList<Pairing> pairings;
     private ArrayList<Result> standings;
     private MyService mServer;
@@ -60,7 +53,6 @@ public class SplashActivity extends AppCompatActivity {
                 mBounded = true;
                 MyService.LocalBinder mLocalBinder = (MyService.LocalBinder)service;
                 mServer = mLocalBinder.getServerInstance();
-                Log.d("Service", "has been made!");
 
                 Intent intent = new Intent("Splash"); //broadcast when service is successfully connected
                 intent.putExtra("ServiceMade", "Yes");
