@@ -17,18 +17,18 @@ Changes from last milestone:
 
 Requirements:  
 GPS  
--Intent to open Google Maps and provide directions to the round location added to the pairings info screens
+- Intent to open Google Maps and provide directions to the round location added to the pairings info screens
 
 Local Data Storage:
 - Everytime we make an API call, we also write the data to local storage.
 - If no internet is available when app boots up, will get data from local data storage if available (atleast one API call has been made prior)
 
-Web Service:
-All endpoints constructed and added to the web service described in the readme
-Endpoints include:
--Get current standings
--Get all pairings information
--Get more specific info about one pairing  
+Web Service:  
+All endpoints constructed and added to the web service described in the readme  
+Endpoints include:  
+- Get current standings
+- Get all pairings information
+- Get more specific info about one pairing  
 
 /  
 /  
