@@ -123,6 +123,13 @@
         android:id="@+id/directionsButton"
         android:onClick="findDirections"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Recordings"
+        android:id="@+id/button"
+        android:onClick="launchRecordings"/>
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

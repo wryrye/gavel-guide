@@ -128,5 +128,10 @@ public class ViewPairing extends AppCompatActivity {
 
     }
 
+    public void launchRecordings(View view){
+        Intent recordingIntent = new Intent(this, AudioRecordTest.class);
+        startActivity(recordingIntent);
+    }
+
 
 }
