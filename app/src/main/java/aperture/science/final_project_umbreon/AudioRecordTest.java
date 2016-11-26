@@ -13,11 +13,21 @@ import android.util.Log;
 import android.media.MediaRecorder;
 import android.media.MediaPlayer;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+
+import java.io.File;
 import java.io.IOException;
 
 
 public class AudioRecordTest extends Activity
 {
+
+
     private static final String LOG_TAG = "AudioRecordTest";
     private static String mFileName = null;
 
@@ -26,6 +36,10 @@ public class AudioRecordTest extends Activity
 
     private PlayButton   mPlayButton = null;
     private MediaPlayer   mPlayer = null;
+
+    private UploadButton uploadButton = null;
+
+    private TransferUtility transferUtility;
 
     private void onRecord(boolean start) {
         if (start) {
@@ -79,6 +93,7 @@ public class AudioRecordTest extends Activity
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
+
     }
 
     class RecordButton extends Button {
@@ -125,6 +140,27 @@ public class AudioRecordTest extends Activity
         }
     }
 
+    class UploadButton extends Button {
+
+        OnClickListener clicker = new OnClickListener() {
+            public void onClick(View v) {
+                File recording = new File(mFileName);
+
+                TransferObserver observer = transferUtility.upload(
+                        "gavelguide2",     /* The bucket to upload to */
+                        "testingUpload",    /* The key for the uploaded object */
+                        recording       /* The file where the data to upload exists */
+                );
+            }
+        };
+
+        public UploadButton(Context ctx) {
+            super(ctx);
+            setText("Upload to S3");
+            setOnClickListener(clicker);
+        }
+    }
+
     public AudioRecordTest() {
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFileName += "/audiorecordtest.3gp";
@@ -133,6 +169,14 @@ public class AudioRecordTest extends Activity
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+
+        CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
+                getApplicationContext(),    /* get the context for the application */
+                "us-east-1:2932b4f6-0636-4ed3-9cf3-357ff4a3ee97",    /* Identity Pool ID */
+                Regions.US_EAST_1           /* Region for your identity pool--US_EAST_1 or EU_WEST_1*/
+        );
+        AmazonS3 s3 = new AmazonS3Client(credentialsProvider);
+        transferUtility = new TransferUtility(s3, getApplicationContext());
 
         LinearLayout ll = new LinearLayout(this);
         mRecordButton = new RecordButton(this);
@@ -143,6 +187,12 @@ public class AudioRecordTest extends Activity
                         0));
         mPlayButton = new PlayButton(this);
         ll.addView(mPlayButton,
+                new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        0));
+        uploadButton = new UploadButton(this);
+        ll.addView(uploadButton,
                 new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
