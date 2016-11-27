@@ -147,5 +147,11 @@ public class ViewPairing extends AppCompatActivity {
         startActivity(recordingIntent);
     }
 
+    public void launchSubmitBallot(View view){
+        Intent intent = new Intent(this, SubmitBallotActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
+
 
 }

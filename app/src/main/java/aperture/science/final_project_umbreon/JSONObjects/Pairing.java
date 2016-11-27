@@ -8,8 +8,9 @@ import java.util.Map;
 
 public class Pairing implements Serializable {
 
-    private String id;
+    private String _id;
     private String recordingS3Key;
+    private String winningTeam;
     private Result team1ID;
     private Result team2ID;
     private Judge judgeID;
@@ -23,6 +24,14 @@ public class Pairing implements Serializable {
     private String speaker3Score;
     private String speaker4Score;
     private Boolean finished;
+
+    public String getWinningTeam() {
+        return winningTeam;
+    }
+
+    public void setWinningTeam(String winningTeam) {
+        this.winningTeam = winningTeam;
+    }
 
     public String getRecordingS3Key() {
         return recordingS3Key;
@@ -104,11 +113,11 @@ public class Pairing implements Serializable {
         this.finished = finished;
     }
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getRoundNumber() {

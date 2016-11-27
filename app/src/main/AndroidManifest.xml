@@ -26,6 +26,7 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".ViewPairing"></activity>
         <activity android:name=".AudioRecordTest"></activity>
+        <activity android:name=".SubmitBallotActivity"></activity>
         <service
             android:name=".MyService"
             android:exported="false"/>

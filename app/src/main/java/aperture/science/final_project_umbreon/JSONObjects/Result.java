@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Result implements Serializable{
 
-    private String id;
+    private String _id;
     private String name;
     private Member1ID member1ID;
     private Member2ID member2ID;
@@ -20,7 +20,7 @@ public class Result implements Serializable{
      * The id
      */
     public String getId() {
-        return id;
+        return _id;
     }
 
     /**
@@ -29,7 +29,7 @@ public class Result implements Serializable{
      * The _id
      */
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     /**

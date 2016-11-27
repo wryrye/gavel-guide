@@ -4,6 +4,7 @@ package aperture.science.final_project_umbreon;
  * Created by ryan on 11/4/16.
  */
 
+import aperture.science.final_project_umbreon.JSONObjects.Ballot;
 import aperture.science.final_project_umbreon.JSONObjects.Pairing;
 import aperture.science.final_project_umbreon.JSONObjects.PairingResult;
 import aperture.science.final_project_umbreon.JSONObjects.S3Key;
@@ -34,6 +35,9 @@ public interface GavelGuideAPIInterface {
 
     @POST("addS3Key")
     Call<String> addS3Key(@Body S3Key key);
+
+    @POST("submitDecision")
+    Call<String> submitDecision(@Body Ballot ballot);
 
 
 

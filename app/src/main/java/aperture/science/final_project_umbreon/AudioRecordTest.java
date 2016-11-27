@@ -219,6 +219,8 @@ public class AudioRecordTest extends Activity
 
                 }
             });
+
+            ((PairingArray) getApplication()).updatePairingS3Key(id, S3KeyString);
         }
     };
 
