@@ -9,6 +9,7 @@ import java.util.Map;
 public class Pairing implements Serializable {
 
     private String id;
+    private String recordingS3Key;
     private Result team1ID;
     private Result team2ID;
     private Judge judgeID;
@@ -22,6 +23,14 @@ public class Pairing implements Serializable {
     private String speaker3Score;
     private String speaker4Score;
     private Boolean finished;
+
+    public String getRecordingS3Key() {
+        return recordingS3Key;
+    }
+
+    public void setRecordingS3Key(String recordingS3Key) {
+        this.recordingS3Key = recordingS3Key;
+    }
 
     public String getSpeaker4Score() {
         return speaker4Score;

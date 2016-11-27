@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <aperture.science.final_project_umbreon.AudioRecordTest.RecordButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/startRecording"
+        android:layout_gravity="center_horizontal" />
+
+    <aperture.science.final_project_umbreon.AudioRecordTest.PlayButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/startPlaying"
+        android:layout_gravity="center_horizontal" />
+
+    <aperture.science.final_project_umbreon.AudioRecordTest.UploadButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/uploadS3"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

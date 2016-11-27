@@ -37,6 +37,8 @@ public class ViewPairing extends AppCompatActivity {
     TextView judgeText;
     TextView locationText;
     ImageView locationImage;
+    String id;
+    String S3Key;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,7 @@ public class ViewPairing extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+        id = intent.getStringExtra("id");
         GavelGuideAPIInterface apiService =
                 GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
         Log.e("Test1", "1");
@@ -64,6 +66,12 @@ public class ViewPairing extends AppCompatActivity {
                 team2 = pairing.getTeam2ID();
                 judge = pairing.getJudgeID();
                 location = pairing.getLocationID();
+                //Log.d("S3Key", pairing.getRecordingS3Key());
+                if(pairing.getRecordingS3Key() == null){
+                    S3Key = "no";
+                } else {
+                    S3Key = pairing.getRecordingS3Key();
+                }
 
                 team1Text = (TextView) findViewById(R.id.team1);
                 team1Text.setText(team1.getName());
@@ -130,6 +138,12 @@ public class ViewPairing extends AppCompatActivity {
 
     public void launchRecordings(View view){
         Intent recordingIntent = new Intent(this, AudioRecordTest.class);
+        recordingIntent.putExtra("id", id);
+        if(S3Key.equals("no")){
+            recordingIntent.putExtra("S3Key", false);
+        } else {
+            recordingIntent.putExtra("S3Key", true);
+        }
         startActivity(recordingIntent);
     }
 
