@@ -162,18 +162,6 @@ public class MainActivity extends AppCompatActivity {
         mServer.callAPI();
     }
 
-    public void viewPairing(View view){
-
-        Intent intent = new Intent(this, ViewPairing.class);
-        intent.putExtra("id", "6");
-        startActivity(intent);
-    }
-    public void viewPairing2(View view){
-
-        Intent intent = new Intent(this, ViewPairing.class);
-        intent.putExtra("id", "7");
-        startActivity(intent);
-    }
 
     public void startPairing(View view){
         LinearLayout layout = (LinearLayout) view;
@@ -187,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Pairing", pairing.getId());
         //if(!pairing.getFinished()){
             Intent intent = new Intent(this, ViewPairing.class);
-            intent.putExtra("id", pairing.getId());
+            intent.putExtra("Pairing", pairing);
             startActivity(intent);
         //}
 

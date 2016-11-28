@@ -28,6 +28,7 @@ import retrofit2.Response;
  */
 public class ViewPairing extends AppCompatActivity {
 
+    Pairing pairing;
     public Result team1;
     public Result team2;
     public Judge judge;
@@ -37,83 +38,86 @@ public class ViewPairing extends AppCompatActivity {
     TextView judgeText;
     TextView locationText;
     ImageView locationImage;
+    TextView winner;
+    TextView speaker1Result;
+    TextView speaker2Result;
+    TextView speaker3Result;
+    TextView speaker4Result;
     String id;
     String S3Key;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_pairing);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         Intent intent = getIntent();
-        id = intent.getStringExtra("id");
-        GavelGuideAPIInterface apiService =
-                GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
-        Log.e("Test1", "1");
-        Call<PairingResult> call = apiService.pairing(id);
-        Log.e("Test1", "1");
-        call.enqueue(new Callback<PairingResult>() {
-            @Override
-            public void onResponse(Call<PairingResult> call, Response<PairingResult> response) {
-                PairingResult result = response.body();
-                List<Pairing> pairings = result.getResults();
-                Log.e("Test1", pairings.toString());
-                Pairing pairing = pairings.get(0);
-                Log.e("Test1", pairing.toString());
-                team1 = pairing.getTeam1ID();
-                team2 = pairing.getTeam2ID();
-                judge = pairing.getJudgeID();
-                location = pairing.getLocationID();
-                //Log.d("S3Key", pairing.getRecordingS3Key());
-                if(pairing.getRecordingS3Key() == null){
-                    S3Key = "no";
-                } else {
-                    S3Key = pairing.getRecordingS3Key();
-                }
+        pairing = (Pairing) intent.getSerializableExtra("Pairing");
+        id = pairing.getId();
+        team1 = pairing.getTeam1ID();
+        team2 = pairing.getTeam2ID();
+        judge = pairing.getJudgeID();
+        location = pairing.getLocationID();
+        //Log.d("S3Key", pairing.getRecordingS3Key());
+        if (pairing.getRecordingS3Key() == null) {
+            S3Key = "no";
+        } else {
+            S3Key = pairing.getRecordingS3Key();
+        }
 
-                team1Text = (TextView) findViewById(R.id.team1);
-                team1Text.setText(team1.getName());
+        if(pairing.getFinished()){
+            setContentView(R.layout.activity_view_result);
 
-                team2Text = (TextView) findViewById(R.id.team2);
-                team2Text.setText(team2.getName());
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
 
-                judgeText = (TextView) findViewById(R.id.judge);
-                judgeText.setText(judge.getName());
-
-                locationText = (TextView) findViewById(R.id.location);
-                locationText.setText(location.getName());
-
-                locationImage = (ImageView) findViewById(R.id.locationImage);
-                if(location.getName().equals("Rotunda")){
-                    locationImage.setImageResource(R.drawable.rotunda);
-                } else if(location.getName().equals("Olsson 120")){
-                    locationImage.setImageResource(R.drawable.olsson);
-                } else if(location.getName().equals("Newcomb Auditorium")){
-                    locationImage.setImageResource(R.drawable.newcomb);
-                } else if(location.getName().equals("New Cabell 444")){
-                    locationImage.setImageResource(R.drawable.new_cabell);
-                } else {
-                    locationImage.setImageResource(R.drawable.rice);
-                }
-
-
-
-//
-//
-                Log.e("Team 2: ", team2.getName());
-                Log.e("Judge: ", judge.getName());
-                Log.e("Location: ", location.getName());
-
-//
+            winner = (TextView) findViewById(R.id.winnerName);
+            String winnerName;
+            if(pairing.getWinningTeam().equals("1")){
+                winnerName = pairing.getTeam1ID().getName();
+            } else {
+                winnerName = pairing.getTeam2ID().getName();
             }
-            @Override
-            public void onFailure(Call<PairingResult> call, Throwable t) {
-                // Log error here since request failed
-                Log.e("GavelGuide", t.toString());
+            winner.setText(winnerName);
+
+            speaker1Result = (TextView) findViewById(R.id.speaker1Result);
+            speaker1Result.setText(pairing.getSpeaker1Score());
+            speaker2Result = (TextView) findViewById(R.id.speaker2Result);
+            speaker2Result.setText(pairing.getSpeaker2Score());
+            speaker3Result = (TextView) findViewById(R.id.speaker3Result);
+            speaker3Result.setText(pairing.getSpeaker3Score());
+            speaker4Result = (TextView) findViewById(R.id.speaker4Result);
+            speaker4Result.setText(pairing.getSpeaker4Score());
+
+
+        } else {
+            setContentView(R.layout.activity_view_pairing);
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            team1Text = (TextView) findViewById(R.id.team1);
+            team1Text.setText(team1.getName());
+
+            team2Text = (TextView) findViewById(R.id.team2);
+            team2Text.setText(team2.getName());
+
+            judgeText = (TextView) findViewById(R.id.judge);
+            judgeText.setText(judge.getName());
+
+            locationText = (TextView) findViewById(R.id.location);
+            locationText.setText(location.getName());
+
+            locationImage = (ImageView) findViewById(R.id.locationImage);
+            if (location.getName().equals("Rotunda")) {
+                locationImage.setImageResource(R.drawable.rotunda);
+            } else if (location.getName().equals("Olsson 120")) {
+                locationImage.setImageResource(R.drawable.olsson);
+            } else if (location.getName().equals("Newcomb Auditorium")) {
+                locationImage.setImageResource(R.drawable.newcomb);
+            } else if (location.getName().equals("New Cabell 444")) {
+                locationImage.setImageResource(R.drawable.new_cabell);
+            } else {
+                locationImage.setImageResource(R.drawable.rice);
             }
-        });
+        }
     }
     public void findDirections(View view){
 

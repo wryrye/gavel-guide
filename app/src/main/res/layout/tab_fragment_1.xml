@@ -58,25 +58,7 @@
         android:layout_below="@id/linearLayout"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Pairing 1"
-        android:id="@+id/viewPairings1"
-        android:layout_below="@+id/rvTab1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="43dp"
-        android:onClick="viewPairing"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Pairing 2"
-        android:id="@+id/viewPairings2"
-        android:layout_below="@+id/viewPairings1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="43dp"
-        android:onClick="viewPairing2"/>
 
 
     <!--<android.support.v7.widget.RecyclerView-->
