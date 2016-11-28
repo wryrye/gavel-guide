@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Gavel Guide</string>
     <string name="testTest">Change me!</string>
+    <string name="unique">"i'm unique af"</string>
 </resources>

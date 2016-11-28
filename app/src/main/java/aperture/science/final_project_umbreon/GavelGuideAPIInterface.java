@@ -24,11 +24,11 @@ public interface GavelGuideAPIInterface {
     @GET("{getRankedTeamsJoin}")
     Call<Standings> standingsList(@Path("getRankedTeamsJoin") String getRankedTeamsJoin);
 
-    @GET("getPairing/{id}")
-    Call<PairingResult> pairing(@Path("id") String pairingId);
+//    @GET("getPairing/{id}")
+//    Call<PairingResult> pairing(@Path("id") String pairingId);
 
-    @GET("getCurrentRoundPairings")
-    Call<PairingResult> pairingCurrentRound();
+//    @GET("getCurrentRoundPairings")
+//    Call<PairingResult> pairingCurrentRound();
 
     @GET("getAllPairings")
     Call<PairingResult> pairingAll();

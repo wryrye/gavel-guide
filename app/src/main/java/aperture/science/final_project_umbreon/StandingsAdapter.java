@@ -88,6 +88,8 @@ public class StandingsAdapter extends
         TextView textView = viewHolder.nameTextView;
         textView.setText(resulty.getName());
 
+        textView.setTag(R.string.unique,resulty.getId());
+
         textView.setClickable(true);
         textView.setActivated(true);
         textView.setEnabled(true);

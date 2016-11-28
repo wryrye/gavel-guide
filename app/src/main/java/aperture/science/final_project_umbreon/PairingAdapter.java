@@ -83,6 +83,8 @@ public class PairingAdapter extends
         TextView textView = viewHolder.roundTextView;
         textView.setText(resulty.getRoundNumber());
 
+        textView.setTag(R.string.unique,resulty.getId());
+
         textView.setClickable(true);
         textView.setActivated(true);
         textView.setEnabled(true);
@@ -90,6 +92,7 @@ public class PairingAdapter extends
         winView.setText(resulty.getTeam1ID().getName());
         TextView lossView = viewHolder.team2TextView;
         lossView.setText(resulty.getTeam2ID().getName());
+
 
 
 

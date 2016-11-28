@@ -26,7 +26,6 @@
             android:layout_weight="0.5"
             android:textSize="30sp"
             android:text="Round"
-            android:onClick="sendMessage"
             />
 
         <TextView
@@ -36,7 +35,6 @@
             android:layout_weight="1.25"
             android:textSize="30sp"
             android:text="Gov"
-            android:onClick="sendMessage"
             />
 
         <TextView
@@ -46,7 +44,6 @@
             android:layout_weight="1.25"
             android:textSize="30sp"
             android:text="Opp"
-            android:onClick="sendMessage"
             />
 
     </LinearLayout>

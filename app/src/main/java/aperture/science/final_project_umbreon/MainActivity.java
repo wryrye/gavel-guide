@@ -34,13 +34,11 @@ import aperture.science.final_project_umbreon.JSONObjects.Result;
 import aperture.science.final_project_umbreon.JSONObjects.Standings;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
 
     PagerAdapter adapter;
-    public String myString = "top secret!";
     ArrayList<Result> standings;
     ArrayList<Pairing> currentRound;
     boolean mBounded;
@@ -76,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 MyService.LocalBinder mLocalBinder = (MyService.LocalBinder) service;
                 mServer = mLocalBinder.getServerInstance();
 
-                Intent intent = new Intent("Splash"); //broadcast when service is successfully connected
-                intent.putExtra("ServiceMade", "Yes");
-                sendBroadcast(intent);
+//                Intent intent = new Intent("Splash"); //broadcast when service is successfully connected
+//                intent.putExtra("ServiceMade", "Yes");
+//                sendBroadcast(intent);
             }
         };
         broadcastReceiver = new BroadcastReceiver() {
@@ -159,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshData(View view){
-        mServer.callAPI();
+
     }
 
 
@@ -169,15 +167,18 @@ public class MainActivity extends AppCompatActivity {
 //            TextView viewChild = (TextView) layout.getChildAt(i);
 //            Log.d(i + "", viewChild.getText().toString());
 //        }
-        String team1 = ((TextView) layout.getChildAt(1)).getText().toString();
-        String team2 = ((TextView) layout.getChildAt(2)).getText().toString();
-        Pairing pairing = ((PairingArray) this.getApplication()).findPairing(team1, team2);
-        Log.d("Pairing", pairing.getId());
+        String id = ((TextView) layout.getChildAt(0)).getTag(R.string.unique)+"";
+
+//        String team1 = ((TextView) layout.getChildAt(1)).getText().toString();
+//        String team2 = ((TextView) layout.getChildAt(2)).getText().toString();
+        Pairing pairing = ((PairingArray) this.getApplication()).findPairing(id);
+//        Log.d("Pairing", pairing.getId());
         //if(!pairing.getFinished()){
-            Intent intent = new Intent(this, ViewPairing.class);
-            intent.putExtra("Pairing", pairing);
-            startActivity(intent);
+        Intent intent = new Intent(this, ViewPairing.class);
+        intent.putExtra("Pairing", pairing);
+        startActivity(intent);
         //}
+
 
     }
 
