@@ -19,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -172,6 +173,24 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ViewPairing.class);
         intent.putExtra("id", "7");
         startActivity(intent);
+    }
+
+    public void startPairing(View view){
+        LinearLayout layout = (LinearLayout) view;
+//        for(int i =0; i < layout.getChildCount(); i++){
+//            TextView viewChild = (TextView) layout.getChildAt(i);
+//            Log.d(i + "", viewChild.getText().toString());
+//        }
+        String team1 = ((TextView) layout.getChildAt(1)).getText().toString();
+        String team2 = ((TextView) layout.getChildAt(2)).getText().toString();
+        Pairing pairing = ((PairingArray) this.getApplication()).findPairing(team1, team2);
+        Log.d("Pairing", pairing.getId());
+        //if(!pairing.getFinished()){
+            Intent intent = new Intent(this, ViewPairing.class);
+            intent.putExtra("id", pairing.getId());
+            startActivity(intent);
+        //}
+
     }
 
     public ArrayList<Pairing> getCurrentRoundPairings(){

@@ -74,9 +74,9 @@ public class PairingArray extends Application {
                 for(int k=0; k < standings.size(); k++){
                     if(standings.get(k).getId().equals(team2.getId())){
                         if(winner.equals("1")){
-                            standings.get(k).setWins((Integer.parseInt(standings.get(k).getWins())+1) + "");
-                        } else {
                             standings.get(k).setLosses((Integer.parseInt(standings.get(k).getLosses())+1) + "");
+                        } else {
+                            standings.get(k).setWins((Integer.parseInt(standings.get(k).getWins())+1) + "");
                         }
                         break;
                     }
@@ -93,5 +93,16 @@ public class PairingArray extends Application {
                 break;
             }
         }
+    }
+
+    public Pairing findPairing(String team1, String team2){
+        for(int i=0; i < pairings.size(); i++){
+            if(pairings.get(i).getTeam1ID().getName().equals(team1)){
+                if(pairings.get(i).getTeam2ID().getName().equals(team2)){
+                    return pairings.get(i);
+                }
+            }
+        }
+        return null;
     }
 }
