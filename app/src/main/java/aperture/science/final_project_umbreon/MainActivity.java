@@ -8,33 +8,22 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.IBinder;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import aperture.science.final_project_umbreon.JSONObjects.Pairing;
-import aperture.science.final_project_umbreon.JSONObjects.PairingResult;
 import aperture.science.final_project_umbreon.JSONObjects.Result;
-import aperture.science.final_project_umbreon.JSONObjects.Standings;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -44,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Result> standings;
     ArrayList<Pairing> currentRound;
     boolean mBounded;
-    MyService mServer;
+    APIService mServer;
     BroadcastReceiver broadcastReceiver;
     private ServiceConnection mConnection;
 
@@ -59,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent myServiceIntent = new Intent(this, MyService.class); //start API service
+        Intent myServiceIntent = new Intent(this, APIService.class); //start API service
         startService(myServiceIntent);
 
         mConnection = new ServiceConnection() { //start connecting to service
@@ -73,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             public void onServiceConnected(ComponentName name, IBinder service) {
 //                Toast.makeText(MainActivity.this, "Main service is connected", Toast.LENGTH_SHORT).show();
                 mBounded = true;
-                MyService.LocalBinder mLocalBinder = (MyService.LocalBinder) service;
+                APIService.LocalBinder mLocalBinder = (APIService.LocalBinder) service;
                 mServer = mLocalBinder.getServerInstance();
 
                 Intent intent = new Intent("Splash"); //broadcast when service is successfully connected
@@ -128,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Intent mIntent = new Intent(this, MyService.class);
+        Intent mIntent = new Intent(this, APIService.class);
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);
     }
 
@@ -159,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshData(View view){
-        mServer.callAPI();
     }
 
 

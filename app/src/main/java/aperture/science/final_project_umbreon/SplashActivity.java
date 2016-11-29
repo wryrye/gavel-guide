@@ -9,7 +9,6 @@ import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private ArrayList<Pairing> pairings;
     private ArrayList<Result> standings;
-    private MyService mServer;
+    private APIService mServer;
     boolean mBounded;
     private BroadcastReceiver broadcastReceiver;
     private ServiceConnection mConnection;
@@ -68,7 +67,7 @@ public class SplashActivity extends AppCompatActivity {
             startMainActivity(); //and go to MainActivity
 
         } else { //if network is available...
-            Intent myServiceIntent = new Intent(this, MyService.class); //start API service
+            Intent myServiceIntent = new Intent(this, APIService.class); //start API service
             startService(myServiceIntent);
 
             mConnection = new ServiceConnection() { //start connecting to service
@@ -82,7 +81,7 @@ public class SplashActivity extends AppCompatActivity {
                 public void onServiceConnected(ComponentName name, IBinder service) {
 //                    Toast.makeText(SplashActivity.this, "Splash service is connected", Toast.LENGTH_SHORT).show();
                     mBounded = true;
-                    MyService.LocalBinder mLocalBinder = (MyService.LocalBinder) service;
+                    APIService.LocalBinder mLocalBinder = (APIService.LocalBinder) service;
                     mServer = mLocalBinder.getServerInstance();
 
                     Intent intent = new Intent("Splash"); //broadcast when service is successfully connected
@@ -95,8 +94,8 @@ public class SplashActivity extends AppCompatActivity {
                 public void onReceive(Context context, Intent intent) { //once connected...
                     if (intent.hasExtra("ServiceMade")) {
                         mServer.getAllPairings();
-                        mServer.getStandings();
-                    } else if (intent.hasExtra("Standings")) { //store result from getStandings response, startMainActivity() if both requests have completed
+                        mServer.getAllStandings();
+                    } else if (intent.hasExtra("Standings")) { //store result from getAllStandings response, startMainActivity() if both requests have completed
                         ArrayList<Result> data = (ArrayList<Result>) intent.getSerializableExtra("Standings");
                         standings = data;
                         if (returnCount == 1) {
@@ -121,7 +120,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() { //bind service to connection on start
         super.onStart();
-        Intent mIntent = new Intent(this, MyService.class);
+        Intent mIntent = new Intent(this, APIService.class);
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);
     }
 

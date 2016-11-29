@@ -1,9 +1,5 @@
 package aperture.science.final_project_umbreon;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,14 +12,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import aperture.science.final_project_umbreon.JSONObjects.Result;
-import aperture.science.final_project_umbreon.JSONObjects.Standings;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class TabFragment3 extends Fragment {
 
@@ -39,7 +29,7 @@ public class TabFragment3 extends Fragment {
 
     private EditText nameField;
     private RecyclerView rvTab3;
-    private StandingsAdapter adapter;
+    private StandingAdapter adapter;
     private View view;
     private ArrayList<Result> standings;
     private MainActivity bigGuy;
@@ -60,6 +50,7 @@ public class TabFragment3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.tab_fragment_3, container, false);
         rvTab3 = (RecyclerView) view.findViewById(R.id.rvTab3);
+        rvTab3.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         standings = ((PairingArray) getActivity().getApplication()).getStandings();
 
@@ -70,7 +61,7 @@ public class TabFragment3 extends Fragment {
         // Create adapter passing in the sample user data (only first time)
         if(adapter == null) {
 //            Log.d("Data TF3", standings+ "");
-            adapter = new StandingsAdapter(this, standings);
+            adapter = new StandingAdapter(this, standings);
         }
         // Attach the adapter to the recyclerview to populate items
         rvTab3.setAdapter(adapter);

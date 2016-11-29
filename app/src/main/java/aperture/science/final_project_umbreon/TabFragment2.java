@@ -53,6 +53,7 @@ public class TabFragment2 extends Fragment {
         Log.d("View", view.toString());
         rvTab2 = (RecyclerView) view.findViewById(R.id.rvTabPreviousResult);
         Log.d("rvTab2", rvTab2.toString());
+        rvTab2.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         pairings = ((PairingArray) getActivity().getApplication()).getPreviousResults();
 

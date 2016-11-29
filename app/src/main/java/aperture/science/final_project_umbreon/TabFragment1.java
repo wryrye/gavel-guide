@@ -20,6 +20,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+
 public class TabFragment1 extends Fragment {
 
     private static final int SPAN_COUNT = 2;
@@ -55,6 +57,8 @@ public class TabFragment1 extends Fragment {
 //        pairings = bigGuy.getCurrentRoundPairings();
         view =  inflater.inflate(R.layout.tab_fragment_1, container, false);
         rvTab1 = (RecyclerView) view.findViewById(R.id.rvTab1);
+
+        rvTab1.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         pairings = ((PairingArray) getActivity().getApplication()).getCurrentRoundPairings();
         //Log.d("In TabFragment1", pairings.toString());
