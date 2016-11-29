@@ -83,6 +83,8 @@ public class PairingAdapter extends
         TextView textView = viewHolder.roundTextView;
         textView.setText(resulty.getRoundNumber());
 
+        textView.setTag(R.string.unique,resulty.getId());
+
         textView.setClickable(true);
         textView.setActivated(true);
         textView.setEnabled(true);

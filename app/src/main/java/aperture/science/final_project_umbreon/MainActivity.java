@@ -163,22 +163,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void startPairing(View view){
+    public void startPairing(View view) {
         LinearLayout layout = (LinearLayout) view;
-//        for(int i =0; i < layout.getChildCount(); i++){
-//            TextView viewChild = (TextView) layout.getChildAt(i);
-//            Log.d(i + "", viewChild.getText().toString());
-//        }
-        String team1 = ((TextView) layout.getChildAt(1)).getText().toString();
-        String team2 = ((TextView) layout.getChildAt(2)).getText().toString();
-        Pairing pairing = ((PairingArray) this.getApplication()).findPairing(team1, team2);
-        Log.d("Pairing", pairing.getId());
-        //if(!pairing.getFinished()){
-            Intent intent = new Intent(this, ViewPairing.class);
-            intent.putExtra("Pairing", pairing);
-            startActivity(intent);
-        //}
+        String id = ((TextView) layout.getChildAt(0)).getTag(R.string.unique) + "";
+        Pairing pairing = ((PairingArray) this.getApplication()).findPairing(id);
 
+        Intent intent = new Intent(this, ViewPairing.class);
+        intent.putExtra("Pairing", pairing);
+        startActivity(intent);
     }
 
     public ArrayList<Pairing> getCurrentRoundPairings(){

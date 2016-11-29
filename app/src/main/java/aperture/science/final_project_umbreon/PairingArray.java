@@ -95,13 +95,12 @@ public class PairingArray extends Application {
         }
     }
 
-    public Pairing findPairing(String team1, String team2){
+    public Pairing findPairing(String id){
         for(int i=0; i < pairings.size(); i++){
-            if(pairings.get(i).getTeam1ID().getName().equals(team1)){
-                if(pairings.get(i).getTeam2ID().getName().equals(team2)){
-                    return pairings.get(i);
-                }
+            if(pairings.get(i).getId().equals(id)){
+                return pairings.get(i);
             }
+
         }
         return null;
     }
