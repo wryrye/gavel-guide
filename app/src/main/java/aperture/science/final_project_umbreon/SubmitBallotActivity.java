@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -29,12 +30,15 @@ public class SubmitBallotActivity extends Activity implements AdapterView.OnItem
     Spinner spinner2;
     Spinner spinner3;
     Spinner spinner4;
+    EditText judgeCodeInput;
     String speaker1Score;
     String speaker2Score;
     String speaker3Score;
     String speaker4Score;
     String winner;
     String id;
+    String judgeCode;
+    String judgeCodeEntered;
 
 
     @Override
@@ -44,6 +48,9 @@ public class SubmitBallotActivity extends Activity implements AdapterView.OnItem
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
+        judgeCode = intent.getStringExtra("judgeCode");
+        Log.d("JudgeCode", judgeCode);
+        judgeCodeInput = (EditText) findViewById(R.id.judgeCodeInput);
         spinner1 = (Spinner) findViewById(R.id.spinnerSpeaker1);
         spinner2 = (Spinner) findViewById(R.id.spinnerSpeak2);
         spinner3 = (Spinner) findViewById(R.id.spinnerSpeak3);
@@ -121,6 +128,12 @@ public class SubmitBallotActivity extends Activity implements AdapterView.OnItem
     }
 
     public void submitForm(View view){
+        judgeCodeEntered = judgeCodeInput.getText().toString();
+        if(!judgeCode.equals(judgeCodeEntered)){
+            Toast.makeText(SubmitBallotActivity.this, "Incorrect Judge Code", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         speaker1Score = spinner1.getSelectedItem().toString();
         Log.d("speaker1Score", speaker1Score);
 
