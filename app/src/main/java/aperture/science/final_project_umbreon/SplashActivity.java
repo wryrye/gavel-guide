@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
@@ -35,6 +36,12 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_splash);
+//        setTheme(R.style.SplashTheme);
+
+//        ImageView splashImage = (ImageView) findViewById(R.id.splashImage);
+//        locationImage.setImageResource(R.drawable.rice);
+
         pairings = new ArrayList<Pairing>();
         standings = new ArrayList<Result>();
 
