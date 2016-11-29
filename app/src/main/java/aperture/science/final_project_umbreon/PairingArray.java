@@ -14,8 +14,11 @@ import aperture.science.final_project_umbreon.JSONObjects.Result;
 public class PairingArray extends Application {
     private ArrayList<Pairing> pairings;
     private ArrayList<Result> standings;
+    final int RECORD_AUDIO = 2;
 
-
+    public int getAudioConstant(){
+        return RECORD_AUDIO;
+    }
     public void setUpPairings(ArrayList<Pairing> results){
         pairings = results;
     }

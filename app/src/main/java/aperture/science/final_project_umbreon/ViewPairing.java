@@ -142,6 +142,7 @@ public class ViewPairing extends AppCompatActivity {
 
     public void launchRecordings(View view){
         Intent recordingIntent = new Intent(this, AudioRecordTest.class);
+        recordingIntent.putExtra("Pairing", pairing);
         recordingIntent.putExtra("id", id);
         if(S3Key.equals("no")){
             recordingIntent.putExtra("S3Key", false);
@@ -154,6 +155,7 @@ public class ViewPairing extends AppCompatActivity {
     public void launchSubmitBallot(View view){
         Intent intent = new Intent(this, SubmitBallotActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("judgeCode", pairing.getJudgeID().getCode());
         startActivity(intent);
     }
 
