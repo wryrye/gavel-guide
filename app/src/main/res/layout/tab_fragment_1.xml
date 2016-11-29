@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -9,7 +9,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="aperture.science.final_project_umbreon.TabFragment1"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    >
 
     <LinearLayout
         android:orientation="horizontal"
@@ -25,8 +26,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:textSize="30sp"
-            android:text="Round"
-            android:onClick="sendMessage"
+            android:text="Rd"
+            android:textColor="#000000"
+            android:textStyle="bold"
             />
 
         <TextView
@@ -36,7 +38,8 @@
             android:layout_weight="1.25"
             android:textSize="30sp"
             android:text="Gov"
-            android:onClick="sendMessage"
+            android:textColor="#000000"
+            android:textStyle="bold"
             />
 
         <TextView
@@ -46,10 +49,19 @@
             android:layout_weight="1.25"
             android:textSize="30sp"
             android:text="Opp"
-            android:onClick="sendMessage"
+            android:textColor="#000000"
+            android:textStyle="bold"
             />
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/linearLayout"
+        android:background="@android:color/black"/>
+
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvTab1"

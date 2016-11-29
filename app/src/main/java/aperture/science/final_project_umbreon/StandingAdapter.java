@@ -19,8 +19,8 @@ import aperture.science.final_project_umbreon.JSONObjects.Result;
 
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
-public class StandingsAdapter extends
-        RecyclerView.Adapter<StandingsAdapter.ViewHolder> {
+public class StandingAdapter extends
+        RecyclerView.Adapter<StandingAdapter.ViewHolder> {
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -52,7 +52,7 @@ public class StandingsAdapter extends
     private Fragment mContext;
 
     // Pass in the contact array into the constructor
-    public StandingsAdapter(Fragment context, ArrayList<Result> list) {
+    public StandingAdapter(Fragment context, ArrayList<Result> list) {
         standingsData = list;
         mContext = context;
     }
@@ -64,7 +64,7 @@ public class StandingsAdapter extends
 
     // Usually involves inflating a layout from XML and returning the holder
     @Override
-    public StandingsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StandingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -80,7 +80,7 @@ public class StandingsAdapter extends
 
     // Involves populating data into the item through holder
     @Override
-    public void onBindViewHolder(StandingsAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(StandingAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
         Result resulty = standingsData.get(position);
 

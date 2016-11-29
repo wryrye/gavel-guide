@@ -1,0 +1,17 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@android:color/white"/>
+
+    <item
+        android:bottom="300dp"
+        android:drawable="@drawable/splash_text"
+        />
+
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/gavel_small"/>
+    </item>
+
+</layer-list>
