@@ -2,7 +2,6 @@ package aperture.science.final_project_umbreon;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -68,7 +67,7 @@ public class AudioRecordTest extends Activity {
     private String id;
     private boolean s3key;
     private String S3KeyString;
-    //final int RECORD_AUDIO_PERMISSION;
+    int RECORD_AUDIO_PERMISSION;
     Button recordButton;
     Button playButton;
     Button uploadButton;
@@ -101,6 +100,7 @@ public class AudioRecordTest extends Activity {
             stopRecording();
         }
     }
+
 
 
 
@@ -204,18 +204,17 @@ public class AudioRecordTest extends Activity {
 
 
 
-
     public AudioRecordTest() {
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFileName += "/audiorecordtest.3gp";
         mFileNameDownload = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFileNameDownload += "/audiodownload.3gp";
-       // RECORD_AUDIO_PERMISSION = ((PairingArray) this.getApplication()).getAudioConstant();;
     }
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        //RECORD_AUDIO_PERMISSION = ((PairingArray) this.getApplication()).getAudioConstant();
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
                 getApplicationContext(),    /* get the context for the application */
                 "us-east-1:2932b4f6-0636-4ed3-9cf3-357ff4a3ee97",    /* Identity Pool ID */
@@ -328,8 +327,8 @@ public class AudioRecordTest extends Activity {
             if (permissionsNeeded.size() > 0) {
                 // Need Rationale
 
-                                ActivityCompat.requestPermissions(this, permissionsList.toArray(new String[permissionsList.size()]),
-                                        2);
+                ActivityCompat.requestPermissions(this, permissionsList.toArray(new String[permissionsList.size()]),
+                        2);
 
                 return;
             }
@@ -383,13 +382,13 @@ public class AudioRecordTest extends Activity {
 
     public void clickRecordLogic(){
 
-            onRecord(mStartRecording);
-            if (mStartRecording) {
-                recordButton.setText("Stop recording");
-            } else {
-                recordButton.setText("Start recording");
-            }
-            mStartRecording = !mStartRecording;
+        onRecord(mStartRecording);
+        if (mStartRecording) {
+            recordButton.setText("Stop recording");
+        } else {
+            recordButton.setText("Start recording");
+        }
+        mStartRecording = !mStartRecording;
 
     }
 
