@@ -21,7 +21,7 @@
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
@@ -31,14 +31,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Who Won?"
-            android:textSize="25sp"
+            android:text="@string/who_won"
+            android:textSize="30sp"
+            android:textStyle="bold"
             android:id="@+id/textView6" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="10sp"
             android:text="winner"
             android:textSize="25sp"
             android:id="@+id/winnerName" />
@@ -47,14 +49,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Speaker Scores"
-            android:textSize="25sp"
+            android:text="@string/speaker_scores"
+            android:layout_marginTop="25sp"
+            android:textSize="30sp"
+            android:textStyle="bold"
             android:id="@+id/textView8" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
             android:weightSum="1">
 
             <TextView
@@ -62,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Speaker 1:"
+                android:textStyle="bold"
                 android:textSize="25sp"
                 android:id="@+id/textView9" />
 
@@ -79,6 +85,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
             android:weightSum="1">
 
             <TextView
@@ -86,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Speaker 2:"
+                android:textStyle="bold"
                 android:textSize="25sp"
                 android:id="@+id/textView10" />
 
@@ -102,6 +110,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
             android:weightSum="1">
 
             <TextView
@@ -109,6 +118,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Speaker 3:"
+                android:textStyle="bold"
                 android:textSize="25sp"
                 android:id="@+id/textView11" />
 
@@ -126,6 +136,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
             android:weightSum="1">
 
             <TextView
@@ -133,6 +144,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Speaker 4:"
+                android:textStyle="bold"
                 android:textSize="25sp"
                 android:id="@+id/textView12" />
 
@@ -147,10 +159,11 @@
         </LinearLayout>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Set Recordings"
+            android:text="Recordings"
             android:id="@+id/button"
+            android:layout_marginTop="25sp"
             android:onClick="launchRecordings"/>
 
 
