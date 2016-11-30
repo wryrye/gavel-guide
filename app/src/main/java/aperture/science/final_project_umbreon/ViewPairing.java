@@ -1,7 +1,9 @@
 package aperture.science.final_project_umbreon;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -88,7 +90,12 @@ public class ViewPairing extends AppCompatActivity {
 
 
         } else {
-            setContentView(R.layout.activity_view_pairing);
+            Log.d("orientation", this.getResources().getConfiguration().orientation + "");
+            if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                setContentView(R.layout.activity_view_pairing);
+            } else {
+                setContentView(R.layout.activity_view_pairing_landscape);
+            }
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
