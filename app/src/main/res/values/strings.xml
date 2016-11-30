@@ -2,4 +2,6 @@
     <string name="app_name">Gavel Guide</string>
     <string name="testTest">Change me!</string>
     <string name="unique">"So unique!"</string>
+    <string name="who_won"><u>Who Won?</u></string>
+    <string name="speaker_scores"><u>Speaker Scores</u></string>
 </resources>
