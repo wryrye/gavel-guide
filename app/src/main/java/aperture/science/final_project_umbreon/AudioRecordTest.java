@@ -2,6 +2,7 @@ package aperture.science.final_project_umbreon;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -37,7 +38,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import aperture.science.final_project_umbreon.JSONObjects.Pairing;
 import aperture.science.final_project_umbreon.JSONObjects.PairingResult;
@@ -64,7 +68,7 @@ public class AudioRecordTest extends Activity {
     private String id;
     private boolean s3key;
     private String S3KeyString;
-    int RECORD_AUDIO_PERMISSION;
+    //final int RECORD_AUDIO_PERMISSION;
     Button recordButton;
     Button playButton;
     Button uploadButton;
@@ -96,30 +100,6 @@ public class AudioRecordTest extends Activity {
         } else {
             stopRecording();
         }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-//        switch (requestCode ) {
-//            case RECORD_AUDIO_PERMISSION: {
-        // If request is cancelled, the result arrays are empty.
-//        if(requestCode == RECORD_AUDIO_PERMISSION){
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                startRecording();
-//                // permission was granted, yay! Do the
-//                // contacts-related task you need to do.
-//
-//            }
-//            return;
-//        }
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            startRecording();
-            return;
-        }
-
-        // other 'case' lines to check for other
-        // permissions this app might request
     }
 
 
@@ -224,69 +204,18 @@ public class AudioRecordTest extends Activity {
 
 
 
-    class PlayButtonDownload extends Button {
-        boolean mStartPlaying = true;
-
-        OnClickListener clicker = new OnClickListener() {
-            public void onClick(View v) {
-                onPlayDownload(mStartPlaying);
-                if (mStartPlaying) {
-                    setText("Stop playing");
-                } else {
-                    setText("Start playing");
-                }
-                mStartPlaying = !mStartPlaying;
-            }
-        };
-
-        public PlayButtonDownload(Context ctx) {
-            super(ctx);
-            setText("Start playing");
-            setOnClickListener(clicker);
-        }
-    }
-
-
-
-    class DownloadButton extends Button {
-
-        OnClickListener clicker = new OnClickListener() {
-            public void onClick(View v) {
-                File recording = new File(mFileNameDownload);
-                try {
-                    recording.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                TransferObserver observer = transferUtility.download(
-                        "gavelguide2",     /* The bucket to upload to */
-                        S3KeyString,    /* The key for the uploaded object */
-                        recording       /* The file where the data to upload exists */
-                );
-
-
-            }
-        };
-
-        public DownloadButton(Context ctx) {
-            super(ctx);
-            setText("Download from S3");
-            setOnClickListener(clicker);
-        }
-    }
 
     public AudioRecordTest() {
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFileName += "/audiorecordtest.3gp";
         mFileNameDownload = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFileNameDownload += "/audiodownload.3gp";
+       // RECORD_AUDIO_PERMISSION = ((PairingArray) this.getApplication()).getAudioConstant();;
     }
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        RECORD_AUDIO_PERMISSION = ((PairingArray) this.getApplication()).getAudioConstant();
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
                 getApplicationContext(),    /* get the context for the application */
                 "us-east-1:2932b4f6-0636-4ed3-9cf3-357ff4a3ee97",    /* Identity Pool ID */
@@ -385,12 +314,75 @@ public class AudioRecordTest extends Activity {
         mStartPlaying = !mStartPlaying;
     }
 
-    public void clickRecord(View view){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO_PERMISSION);
-        } else if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RECORD_AUDIO_PERMISSION);
-        } else {
+    public void clickRecord(View view) {
+        List<String> permissionsNeeded = new ArrayList<String>();
+
+        final List<String> permissionsList = new ArrayList<String>();
+        if (!addPermission(permissionsList, Manifest.permission.RECORD_AUDIO))
+            permissionsNeeded.add("GPS");
+        if (!addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            permissionsNeeded.add("Read Contacts");
+
+
+        if (permissionsList.size() > 0) {
+            if (permissionsNeeded.size() > 0) {
+                // Need Rationale
+
+                                ActivityCompat.requestPermissions(this, permissionsList.toArray(new String[permissionsList.size()]),
+                                        2);
+
+                return;
+            }
+            ActivityCompat.requestPermissions(this, permissionsList.toArray(new String[permissionsList.size()]),
+                    2);
+            return;
+        }
+
+        clickRecordLogic();
+    }
+
+    private boolean addPermission(List<String> permissionsList, String permission) {
+        if (ContextCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED) {
+            permissionsList.add(permission);
+            // Check for Rationale Option
+//            if (!shouldShowRequestPermissionRationale(permission))
+//                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 2:
+            {
+                Map<String, Integer> perms = new HashMap<String, Integer>();
+                // Initial
+                perms.put(Manifest.permission.RECORD_AUDIO, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                // Fill with results
+                for (int i = 0; i < permissions.length; i++)
+                    perms.put(permissions[i], grantResults[i]);
+                // Check for ACCESS_FINE_LOCATION
+                if (perms.get(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+                        && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    // All Permissions Granted
+                    clickRecordLogic();
+                } else {
+                    // Permission Denied
+                    Toast.makeText(this, "Some Permission is Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+            break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+
+    public void clickRecordLogic(){
+
             onRecord(mStartRecording);
             if (mStartRecording) {
                 recordButton.setText("Stop recording");
@@ -398,7 +390,7 @@ public class AudioRecordTest extends Activity {
                 recordButton.setText("Start recording");
             }
             mStartRecording = !mStartRecording;
-        }
+
     }
 
     public void clickPlayDownload(View view){
