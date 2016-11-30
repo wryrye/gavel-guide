@@ -1,5 +1,6 @@
 package aperture.science.final_project_umbreon;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,6 +31,7 @@ public class TabFragment3 extends Fragment {
     private EditText nameField;
     private RecyclerView rvTab3;
     private StandingAdapter adapter;
+    private StandingAdapterLandscape adapterLandscape;
     private View view;
     private ArrayList<Result> standings;
     private MainActivity bigGuy;
@@ -48,7 +50,11 @@ public class TabFragment3 extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.tab_fragment_3, container, false);
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            view =  inflater.inflate(R.layout.tab_fragment_3, container, false);
+        } else {
+            view =  inflater.inflate(R.layout.tab_fragment_3_lanscape, container, false);
+        }
         rvTab3 = (RecyclerView) view.findViewById(R.id.rvTab3);
         rvTab3.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
@@ -59,12 +65,22 @@ public class TabFragment3 extends Fragment {
 //        standings = bigGuy.standings;
 //        Log.d("Data TF3", standings+ "");
         // Create adapter passing in the sample user data (only first time)
-        if(adapter == null) {
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(adapter == null) {
 //            Log.d("Data TF3", standings+ "");
-            adapter = new StandingAdapter(this, standings);
+                adapter = new StandingAdapter(this, standings);
+            }
+            // Attach the adapter to the recyclerview to populate items
+            rvTab3.setAdapter(adapter);
+        } else {
+            if(adapterLandscape == null) {
+//            Log.d("Data TF3", standings+ "");
+                adapterLandscape = new StandingAdapterLandscape(this, standings);
+            }
+            // Attach the adapter to the recyclerview to populate items
+            rvTab3.setAdapter(adapterLandscape);
         }
-        // Attach the adapter to the recyclerview to populate items
-        rvTab3.setAdapter(adapter);
+
         // Set layout manager to position the items
 
         mLayoutManager = new LinearLayoutManager(getActivity());
