@@ -170,7 +170,9 @@ public class SubmitBallotActivity extends Activity implements AdapterView.OnItem
         });
         ((PairingArray) this.getApplication()).updatePairingResult(id, winner, speaker1Score, speaker2Score, speaker3Score, speaker4Score);
         Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+
 
 
     }

@@ -100,8 +100,8 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onReceive(Context context, Intent intent) { //once connected...
                     if (intent.hasExtra("ServiceMade")) {
-                        mServer.getAllPairings();
-                        mServer.getAllStandings();
+                        mServer.getAllPairings("Splash");
+                        mServer.getAllStandings("Splash");
                     } else if (intent.hasExtra("Standings")) { //store result from getAllStandings response, startMainActivity() if both requests have completed
                         ArrayList<Result> data = (ArrayList<Result>) intent.getSerializableExtra("Standings");
                         standings = data;
@@ -151,8 +151,8 @@ public class SplashActivity extends AppCompatActivity {
     }
     public void startMainActivity(){
         Log.d("Splash","start1");
-        ((PairingArray) this.getApplication()).setUpPairings(pairings); //set pairings
-        ((PairingArray) this.getApplication()).setUpStandings(standings); //set standings
+//        ((PairingArray) this.getApplication()).setUpPairings(pairings); //set pairings
+//        ((PairingArray) this.getApplication()).setUpStandings(standings); //set standings
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra("CurrentRound", pairings);
         Log.d("Splash","start2");
