@@ -25,7 +25,6 @@ public class APIService extends IntentService {
 
     private ArrayList<Result> data;
     private ArrayList<Pairing> pairings;
-    private ArrayList<Pairing> currentRound;
 
     public APIService(){
         super("APIService");
@@ -48,7 +47,7 @@ public class APIService extends IntentService {
             return APIService.this;
         }
     }
-    public void getAllPairings(){
+    public void getAllPairings(final String source){
         GavelGuideAPIInterface apiService =
                 GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
         Call<PairingResult> call = apiService.pairingAll();
@@ -60,7 +59,9 @@ public class APIService extends IntentService {
                 for(Pairing i : result.getResults()){
                     pairings.add(i);
                 }
-                broadcastPairings();
+                ((PairingArray) getApplication()).setUpPairings(pairings); //set pairings
+
+                broadcastPairings(source);
                 storePairings();
             }
             @Override
@@ -71,7 +72,7 @@ public class APIService extends IntentService {
         });
     }
 
-    public void getAllStandings() {
+    public void getAllStandings(final String source) {
         data = new ArrayList<Result>();
         GavelGuideAPIInterface apiService =
                 GavelGuideAPIClient.getClient().create(GavelGuideAPIInterface.class);
@@ -84,8 +85,9 @@ public class APIService extends IntentService {
                 for(Result i : standings.getResults()){
                     data.add(i);
                 }
+                ((PairingArray) getApplication()).setUpStandings(data); //set standings
 
-                broadcastStandings();
+                broadcastStandings(source);
                 storeStandings();
 //                Log.e("GavelGuide", data+"");
             }
@@ -123,14 +125,14 @@ public class APIService extends IntentService {
     }
 
 
-    public void broadcastStandings(){
-        Intent intent = new Intent("Splash"); //FILTER is a string to identify this intent
+    public void broadcastStandings(String dest){
+        Intent intent = new Intent(dest); //FILTER is a string to identify this intent
         intent.putExtra("Standings", data);
         sendBroadcast(intent);
     }
 
-    public void broadcastPairings(){
-        Intent intent = new Intent("Splash"); //FILTER is a string to identify this intent
+    public void broadcastPairings(String dest){
+        Intent intent = new Intent(dest); //FILTER is a string to identify this intent
         intent.putExtra("AllPairings", pairings);
         sendBroadcast(intent);
     }

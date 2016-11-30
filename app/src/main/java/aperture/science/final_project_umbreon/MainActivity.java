@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     APIService mServer;
     BroadcastReceiver broadcastReceiver;
     private ServiceConnection mConnection;
+    private int returnCount = 0;
 
 
 
@@ -47,6 +49,20 @@ public class MainActivity extends AppCompatActivity {
         //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh) ;
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mServer.getAllPairings("Main");
+                mServer.getAllStandings("Main");
+
+//
+            }
+        });
+
+
+
 
         Intent myServiceIntent = new Intent(this, APIService.class); //start API service
         startService(myServiceIntent);
@@ -73,10 +89,16 @@ public class MainActivity extends AppCompatActivity {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) { //once connected...
-
+//                Log.d("ReceivedFefresh","yolo");
+                returnCount++;
+                if(returnCount==2) {
+                    Intent intent2 = new Intent(getBaseContext(), MainActivity.class);
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent2);
+                }
             }
         };
-        registerReceiver(broadcastReceiver, new IntentFilter("Splash")); //register receiver to listen to broadcasts
+        registerReceiver(broadcastReceiver, new IntentFilter("Main")); //register receiver to listen to broadcasts
 
         //make tabs
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -118,7 +140,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Intent mIntent = new Intent(this, APIService.class);
+        startService(mIntent);
         bindService(mIntent, mConnection, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver, new IntentFilter("Main"));
     }
 
     @Override
