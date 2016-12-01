@@ -67,6 +67,7 @@
             </RadioGroup>
 
             <TextView
+                android:paddingTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -156,10 +157,12 @@
             </LinearLayout>
 
             <TextView
+                android:paddingTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Judge Code"
+                android:text="@string/judge_code"
+                android:textStyle="bold"
                 android:textSize="25sp"
                 android:id="@+id/textView13" />
 
@@ -170,7 +173,8 @@
                 android:hint="Please enter your code here"/>
 
             <Button
-                android:layout_width="wrap_content"
+                android:paddingTop="15dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Submit"
                 android:id="@+id/button3"

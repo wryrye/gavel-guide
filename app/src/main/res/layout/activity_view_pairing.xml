@@ -141,13 +141,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Enter Ballot"
+                android:layout_weight="1"
                 android:id="@+id/button2"
                 android:onClick="launchSubmitBallot"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Set Recordings"
+                android:layout_weight="1"
+                android:text="Recordings"
                 android:id="@+id/button"
                 android:onClick="launchRecordings"/>
         </LinearLayout>
@@ -166,12 +168,29 @@
             android:id="@+id/locationImage"
             android:layout_weight="1" />
 
-        <Button
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Show Map"
-            android:id="@+id/directionsButton"
-            android:onClick="toggleMap"/>
+            >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show Map"
+                android:layout_weight="1"
+                android:id="@+id/directionsButton"
+                android:onClick="toggleMap"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Get Directions"
+                android:id="@+id/button4"
+                android:onClick="findDirections"/>
+        </LinearLayout>
 
     </LinearLayout>
 

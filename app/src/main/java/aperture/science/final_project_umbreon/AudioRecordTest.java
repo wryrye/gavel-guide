@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.os.Bundle;
@@ -69,13 +70,16 @@ public class AudioRecordTest extends Activity {
     private String S3KeyString;
     int RECORD_AUDIO_PERMISSION;
     Button recordButton;
+    Button stopRecordButton;
     Button playButton;
+    Button stopPlayButton;
     Button uploadButton;
     Button downloadButton;
     Button playButtonDownload;
     ProgressBar uploadProgress;
     boolean mStartPlaying;
     boolean mStartRecording;
+    boolean enableUpload = false;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -243,10 +247,15 @@ public class AudioRecordTest extends Activity {
         } else {
             setContentView(R.layout.upload_recording);
             playButton = (Button) findViewById(R.id.playButtonUpload);
+            stopPlayButton = (Button) findViewById(R.id.stopPlayingButtonAudio);
             recordButton = (Button) findViewById(R.id.recordButtonAudio);
+            stopRecordButton = (Button) findViewById(R.id.stopRecordButtonAudio);
             uploadButton = (Button) findViewById(R.id.uploadAudio);
             uploadProgress = (ProgressBar) findViewById(R.id.progress_bar);
+//            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//            setSupportActionBar(toolbar);
         }
+
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -306,9 +315,16 @@ public class AudioRecordTest extends Activity {
     public void clickPlay(View view){
         onPlay(mStartPlaying);
         if (mStartPlaying) {
-            playButton.setText("Stop playing");
+            stopPlayButton.setEnabled(true);
+            playButton.setEnabled(false);
         } else {
-            playButton.setText("Start playing");
+            if(!enableUpload){
+                enableUpload=true;
+                playButton.setEnabled(true);
+                uploadButton.setEnabled(true);
+            }
+            stopPlayButton.setEnabled(false);
+            playButton.setEnabled(true);
         }
         mStartPlaying = !mStartPlaying;
     }
@@ -384,9 +400,16 @@ public class AudioRecordTest extends Activity {
 
         onRecord(mStartRecording);
         if (mStartRecording) {
-            recordButton.setText("Stop recording");
+            stopRecordButton.setEnabled(true);
+            recordButton.setEnabled(false);
         } else {
-            recordButton.setText("Start recording");
+            if(!enableUpload){
+                enableUpload=true;
+                playButton.setEnabled(true);
+                uploadButton.setEnabled(true);
+            }
+            stopRecordButton.setEnabled(false);
+            recordButton.setEnabled(true);
         }
         mStartRecording = !mStartRecording;
 

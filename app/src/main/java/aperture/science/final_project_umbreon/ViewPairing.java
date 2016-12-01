@@ -201,7 +201,7 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap map) {
-        LatLng sydney = new LatLng(-33.867, 151.206);
+        LatLng sydney = new LatLng(Double.parseDouble(pairing.getLocationID().getLatitude()), Double.parseDouble(pairing.getLocationID().getLongitude()));
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -216,8 +216,8 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
 
             map.addMarker(new MarkerOptions()
-                    .title("Sydney")
-                    .snippet("The most populous city in Australia.")
+//                    .title("Sydney")
+//                    .snippet("The most populous city in Australia.")
                     .position(sydney));
 
 
@@ -227,8 +227,8 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
 
         map.addMarker(new MarkerOptions()
-                .title("Sydney")
-                .snippet("The most populous city in Australia.")
+//                .title("Sydney")
+//                .snippet("The most populous city in Australia.")
                 .position(sydney));
     }
 

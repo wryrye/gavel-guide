@@ -162,6 +162,12 @@
                     android:text="Show Map"
                     android:id="@+id/directionsButton"
                     android:onClick="toggleMap"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Get Directions"
+                    android:id="@+id/button4"
+                    android:onClick="findDirections"/>
             </LinearLayout>
 
 
