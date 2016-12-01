@@ -50,8 +50,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Who Won?"
-            android:textSize="25sp"
+            android:text="@string/who_won"
+            android:textSize="30sp"
+            android:textStyle="bold"
             android:id="@+id/textView2" />
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
@@ -75,8 +76,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Speaker Scores"
-            android:textSize="25sp"
+            android:text="@string/speaker_scores"
+            android:textSize="30sp"
+            android:textStyle="bold"
             android:id="@+id/textView7" />
 
         <LinearLayout
@@ -88,6 +90,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Speaker 1 Score"
+                android:textSize="25sp"
+                android:textStyle="bold"
                 android:id="@+id/speaker1" />
 
             <Spinner
@@ -105,6 +109,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Speaker 2 Score"
+                android:textSize="25sp"
+                android:textStyle="bold"
                 android:id="@+id/speaker2" />
 
             <Spinner
@@ -121,6 +127,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Speaker 3 Score"
+                android:textSize="25sp"
+                android:textStyle="bold"
                 android:id="@+id/speaker3" />
 
             <Spinner
@@ -138,6 +146,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Speaker 4 Score"
+                android:textSize="25sp"
+                android:textStyle="bold"
                 android:id="@+id/speaker4" />
 
             <Spinner

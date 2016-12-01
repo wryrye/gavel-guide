@@ -2,31 +2,34 @@ package aperture.science.final_project_umbreon;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import aperture.science.final_project_umbreon.JSONObjects.Judge;
 import aperture.science.final_project_umbreon.JSONObjects.Location;
 import aperture.science.final_project_umbreon.JSONObjects.Pairing;
-import aperture.science.final_project_umbreon.JSONObjects.PairingResult;
 import aperture.science.final_project_umbreon.JSONObjects.Result;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by Brandon on 11/19/2016.
  */
-public class ViewPairing extends AppCompatActivity {
+public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback {
 
     Pairing pairing;
     public Result team1;
@@ -45,9 +48,11 @@ public class ViewPairing extends AppCompatActivity {
     TextView speaker4Result;
     String id;
     String S3Key;
+    private boolean showingMap = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Intent intent = getIntent();
         pairing = (Pairing) intent.getSerializableExtra("Pairing");
         id = pairing.getId();
@@ -62,7 +67,7 @@ public class ViewPairing extends AppCompatActivity {
             S3Key = pairing.getRecordingS3Key();
         }
 
-        if(pairing.getFinished()){
+        if (pairing.getFinished()) {
             setContentView(R.layout.activity_view_result);
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -70,7 +75,7 @@ public class ViewPairing extends AppCompatActivity {
 
             winner = (TextView) findViewById(R.id.winnerName);
             String winnerName;
-            if(pairing.getWinningTeam().equals("1")){
+            if (pairing.getWinningTeam().equals("1")) {
                 winnerName = pairing.getTeam1ID().getName();
             } else {
                 winnerName = pairing.getTeam2ID().getName();
@@ -118,17 +123,28 @@ public class ViewPairing extends AppCompatActivity {
                 locationImage.setImageResource(R.drawable.rice);
             }
         }
+//        MapFragment mapFragment = (MapFragment) getFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
+
+        SupportMapFragment m = ((SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map));
+        m.getMapAsync(this);
+
+        View gooMap = findViewById(R.id.map);
+        gooMap.setVisibility(View.GONE);
     }
-    public void findDirections(View view){
+
+    public void findDirections(View view) {
 
         //RICE HALL INFORMATION TECHNOLOGY ENGINEERING BUILDING
-        try{
+        try {
             String uriString = "google.navigation:q=" + location.getAddress() + "&mode=w";
             Uri gmmIntentUri = Uri.parse(uriString);
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Context context = getApplicationContext();
             CharSequence text = "Error: Maybe no internet?";
             int duration = Toast.LENGTH_SHORT;
@@ -139,12 +155,27 @@ public class ViewPairing extends AppCompatActivity {
         }
 
     }
+    public void toggleMap(View view){
+        View myImage = findViewById(R.id.locationImage);
+        View myMap = findViewById(R.id.map);
+        Button myButton = (Button)findViewById(R.id.directionsButton);
+        if(!showingMap) {
+            myImage.setVisibility(View.GONE);
+            myMap.setVisibility(View.VISIBLE);
+            myButton.setText("Show Building");
+        }else{
+            myImage.setVisibility(View.VISIBLE);
+            myMap.setVisibility(View.GONE);
+            myButton.setText("Show Map");
+        }
+        showingMap = !showingMap;
+    }
 
-    public void launchRecordings(View view){
+    public void launchRecordings(View view) {
         Intent recordingIntent = new Intent(this, AudioRecordTest.class);
         recordingIntent.putExtra("Pairing", pairing);
         recordingIntent.putExtra("id", id);
-        if(S3Key.equals("no")){
+        if (S3Key.equals("no")) {
             recordingIntent.putExtra("S3Key", false);
         } else {
             recordingIntent.putExtra("S3Key", true);
@@ -152,11 +183,44 @@ public class ViewPairing extends AppCompatActivity {
         startActivity(recordingIntent);
     }
 
-    public void launchSubmitBallot(View view){
+    public void launchSubmitBallot(View view) {
         Intent intent = new Intent(this, SubmitBallotActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("judgeCode", pairing.getJudgeID().getCode());
         startActivity(intent);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        LatLng sydney = new LatLng(-33.867, 151.206);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1337);
+            map.setMyLocationEnabled(true);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+
+            map.addMarker(new MarkerOptions()
+                    .title("Sydney")
+                    .snippet("The most populous city in Australia.")
+                    .position(sydney));
+
+
+//            return;
+        }
+        map.setMyLocationEnabled(true);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+
+        map.addMarker(new MarkerOptions()
+                .title("Sydney")
+                .snippet("The most populous city in Australia.")
+                .position(sydney));
     }
 
 
