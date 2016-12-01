@@ -122,17 +122,16 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
             } else {
                 locationImage.setImageResource(R.drawable.rice);
             }
+            SupportMapFragment m = ((SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map));
+            m.getMapAsync(this);
+
+            View gooMap = findViewById(R.id.map);
+            gooMap.setVisibility(View.GONE);
         }
-//        MapFragment mapFragment = (MapFragment) getFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
+//
 
-        SupportMapFragment m = ((SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map));
-        m.getMapAsync(this);
 
-        View gooMap = findViewById(R.id.map);
-        gooMap.setVisibility(View.GONE);
     }
 
     public void findDirections(View view) {
