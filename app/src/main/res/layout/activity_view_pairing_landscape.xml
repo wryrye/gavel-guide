@@ -99,6 +99,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:id="@+id/team1"
                         android:textSize="25sp"
+                        android:textColor="#707070"
                         android:maxLines='1'/>
 
                     <TextView
@@ -107,6 +108,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:id="@+id/team2"
                         android:textSize="25sp"
+                        android:textColor="#707070"
                         android:maxLines='1'/>
 
                     <TextView
@@ -115,6 +117,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:id="@+id/judge"
                         android:textSize="25sp"
+                        android:textColor="#707070"
                         android:maxLines='1'/>
 
                     <TextView
@@ -123,10 +126,16 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:id="@+id/location"
                         android:textSize="25sp"
+                        android:textColor="#707070"
                         android:maxLines='1'/>
                 </LinearLayout>
 
             </LinearLayout>
+
+            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -146,22 +155,34 @@
                 android:text="Set Recordings"
                 android:id="@+id/button"
                 android:onClick="launchRecordings"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Show Map"
+                    android:id="@+id/directionsButton"
+                    android:onClick="toggleMap"/>
             </LinearLayout>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Get Walking Directions"
-                android:id="@+id/directionsButton"
-                android:onClick="findDirections"/>
+
+            </ScrollView>
 
         </LinearLayout>
+
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_weight="1"/>
 
             <ImageView
                 android:layout_width="wrap_content"

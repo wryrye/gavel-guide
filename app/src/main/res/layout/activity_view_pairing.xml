@@ -30,6 +30,13 @@
         android:orientation="vertical"
         android:padding="16dp"
         >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/pairing_info"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
 
         <LinearLayout android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -91,6 +98,7 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/team1"
                     android:textSize="25sp"
+                    android:textColor="#707070"
                     android:maxLines='1'/>
 
                 <TextView
@@ -99,6 +107,7 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/team2"
                     android:textSize="25sp"
+                    android:textColor="#707070"
                     android:maxLines='1'/>
 
                 <TextView
@@ -107,6 +116,7 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/judge"
                     android:textSize="25sp"
+                    android:textColor="#707070"
                     android:maxLines='1'/>
 
                 <TextView
@@ -115,6 +125,7 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/location"
                     android:textSize="25sp"
+                    android:textColor="#707070"
                     android:maxLines='1'/>
             </LinearLayout>
 
@@ -126,20 +137,28 @@
             android:layout_height="wrap_content"
             >
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter Ballot"
-            android:id="@+id/button2"
-            android:onClick="launchSubmitBallot"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter Ballot"
+                android:id="@+id/button2"
+                android:onClick="launchSubmitBallot"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Set Recordings"
-            android:id="@+id/button"
-            android:onClick="launchRecordings"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set Recordings"
+                android:id="@+id/button"
+                android:onClick="launchRecordings"/>
         </LinearLayout>
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_weight="1"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -150,9 +169,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Get Walking Directions"
+            android:text="Show Map"
             android:id="@+id/directionsButton"
-            android:onClick="findDirections"/>
+            android:onClick="toggleMap"/>
 
     </LinearLayout>
 

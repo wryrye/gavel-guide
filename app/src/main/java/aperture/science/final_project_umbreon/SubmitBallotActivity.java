@@ -76,19 +76,19 @@ public class SubmitBallotActivity extends Activity implements AdapterView.OnItem
         speaks.add("27.75");
         speaks.add("28");
 
-        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, speaks);
+        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(this, R.layout.my_spinner, speaks);
         dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(dataAdapter1);
 
-        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, speaks);
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, R.layout.my_spinner, speaks);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(dataAdapter2);
 
-        ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, speaks);
+        ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<String>(this, R.layout.my_spinner, speaks);
         dataAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner3.setAdapter(dataAdapter3);
 
-        ArrayAdapter<String> dataAdapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, speaks);
+        ArrayAdapter<String> dataAdapter4 = new ArrayAdapter<String>(this, R.layout.my_spinner, speaks);
         dataAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner4.setAdapter(dataAdapter4);
 
