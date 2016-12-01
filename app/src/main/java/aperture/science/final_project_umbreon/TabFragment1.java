@@ -1,5 +1,6 @@
 package aperture.science.final_project_umbreon;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,6 +38,7 @@ public class TabFragment1 extends Fragment {
 
     private RecyclerView rvTab1;
     private PairingAdapter adapter;
+    private PairingAdapterLandscape landscapeAdapter;
     private View view;
     private ArrayList<Pairing> pairings;
     private MainActivity bigGuy;
@@ -55,7 +57,11 @@ public class TabFragment1 extends Fragment {
 //        pairings = new ArrayList<Pairing>();
 //        bigGuy = (MainActivity)getActivity();
 //        pairings = bigGuy.getCurrentRoundPairings();
-        view =  inflater.inflate(R.layout.tab_fragment_1, container, false);
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            view =  inflater.inflate(R.layout.tab_fragment_1, container, false);
+        } else {
+            view =  inflater.inflate(R.layout.tab_fragment_1_landscape, container, false);
+        }
         rvTab1 = (RecyclerView) view.findViewById(R.id.rvTab1);
 
         rvTab1.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
@@ -63,12 +69,23 @@ public class TabFragment1 extends Fragment {
         pairings = ((PairingArray) getActivity().getApplication()).getCurrentRoundPairings();
         //Log.d("In TabFragment1", pairings.toString());
         // Create adapter passing in the sample user data (only first time)
-        if(adapter == null) {
-            Log.d("Pairings", pairings.toString());
-            adapter = new PairingAdapter(this, pairings);
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(adapter == null) {
+                Log.d("Pairings", pairings.toString());
+                adapter = new PairingAdapter(this, pairings);
+            }
+            // Attach the adapter to the recyclerview to populate items
+            rvTab1.setAdapter(adapter);
+        } else {
+            if(landscapeAdapter == null) {
+                Log.d("Pairings", pairings.toString());
+                landscapeAdapter = new PairingAdapterLandscape(this, pairings);
+            }
+            // Attach the adapter to the recyclerview to populate items
+            rvTab1.setAdapter(landscapeAdapter);
         }
-        // Attach the adapter to the recyclerview to populate items
-        rvTab1.setAdapter(adapter);
+
+
         // Set layout manager to position the items
 
         mLayoutManager = new LinearLayoutManager(getActivity());

@@ -8,23 +8,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Start Recording"
-            android:id="@+id/recordButtonAudio"
-            android:onClick="clickRecord"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Start Playing"
-            android:id="@+id/playButtonUpload"
-            android:layout_gravity="center_horizontal"
-            android:onClick="clickPlay"/>
     </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Recording"
+        android:id="@+id/recordButtonAudio"
+        android:onClick="clickRecord"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Playing"
+        android:id="@+id/playButtonUpload"
+        android:layout_gravity="center_horizontal"
+        android:onClick="clickPlay"/>
 
     <Button
         android:layout_width="match_parent"
@@ -32,7 +31,6 @@
         android:layout_marginTop="30dp"
         android:text="Upload"
         android:id="@+id/uploadAudio"
-        android:layout_gravity="center_horizontal"
         android:onClick="clickUpload"/>
 
     <ProgressBar

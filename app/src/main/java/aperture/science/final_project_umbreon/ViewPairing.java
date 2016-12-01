@@ -1,13 +1,18 @@
 package aperture.science.final_project_umbreon;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -93,7 +98,12 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
 
 
         } else {
-            setContentView(R.layout.activity_view_pairing);
+            Log.d("orientation", this.getResources().getConfiguration().orientation + "");
+            if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                setContentView(R.layout.activity_view_pairing);
+            } else {
+                setContentView(R.layout.activity_view_pairing_landscape);
+            }
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
