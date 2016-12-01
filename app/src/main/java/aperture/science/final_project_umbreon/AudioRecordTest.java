@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,7 +52,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class AudioRecordTest extends Activity {
+public class AudioRecordTest extends AppCompatActivity {
 
 
     private static final String LOG_TAG = "AudioRecordTest";
@@ -76,6 +77,7 @@ public class AudioRecordTest extends Activity {
     Button uploadButton;
     Button downloadButton;
     Button playButtonDownload;
+    Button stopButtonDownload;
     ProgressBar uploadProgress;
     boolean mStartPlaying;
     boolean mStartRecording;
@@ -243,6 +245,7 @@ public class AudioRecordTest extends Activity {
             setContentView(R.layout.download_recording);
             downloadButton = (Button) findViewById(R.id.downloadButton);
             playButtonDownload = (Button) findViewById(R.id.playButtonDownload);
+            stopButtonDownload = (Button) findViewById(R.id.stopButtonDownload);
             uploadProgress = (ProgressBar) findViewById(R.id.progress_bar);
         } else {
             setContentView(R.layout.upload_recording);
@@ -252,10 +255,10 @@ public class AudioRecordTest extends Activity {
             stopRecordButton = (Button) findViewById(R.id.stopRecordButtonAudio);
             uploadButton = (Button) findViewById(R.id.uploadAudio);
             uploadProgress = (ProgressBar) findViewById(R.id.progress_bar);
-//            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//            setSupportActionBar(toolbar);
-        }
 
+        }
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -418,9 +421,11 @@ public class AudioRecordTest extends Activity {
     public void clickPlayDownload(View view){
         onPlayDownload(mStartPlaying);
         if (mStartPlaying) {
-            playButtonDownload.setText("Stop playing");
+            stopButtonDownload.setEnabled(true);
+            playButtonDownload.setEnabled(false);
         } else {
-            playButtonDownload.setText("Start playing");
+            stopButtonDownload.setEnabled(false);
+            playButtonDownload.setEnabled(true);
         }
         mStartPlaying = !mStartPlaying;
     }
@@ -432,6 +437,7 @@ public class AudioRecordTest extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        playButtonDownload.setEnabled(true);
 
         TransferObserver observer = transferUtility.download(
                 "gavelguide2",     /* The bucket to upload to */

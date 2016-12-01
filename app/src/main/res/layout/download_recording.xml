@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:outlineProvider="bounds"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    </FrameLayout>
 
     <Button
         android:layout_width="match_parent"
@@ -14,16 +32,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:id="@+id/progress_bar"
         android:layout_alignParentStart="true"
         android:paddingBottom="10dp"
         />
 
-    <Button
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Play Recording"
-        android:id="@+id/playButtonDownload"
-        android:onClick="clickPlayDownload"/>
+        android:layout_height="match_parent"
+        android:paddingTop="20dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Play Audio"
+            android:id="@+id/playButtonDownload"
+            android:enabled="false"
+            android:onClick="clickPlayDownload"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop Audio"
+            android:enabled="false"
+            android:layout_weight="1"
+            android:id="@+id/stopButtonDownload"
+            android:onClick="clickPlayDownload"/>
+    </LinearLayout>
+
 </LinearLayout>
