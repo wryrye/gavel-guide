@@ -125,18 +125,18 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
             locationText = (TextView) findViewById(R.id.location);
             locationText.setText(location.getName());
 
-//            locationImage = (ImageView) findViewById(R.id.locationImage);
-//            if (location.getName().equals("Rotunda")) {
-//                locationImage.setImageResource(R.drawable.rotunda);
-//            } else if (location.getName().equals("Olsson 120")) {
-//                locationImage.setImageResource(R.drawable.olsson);
-//            } else if (location.getName().equals("Newcomb Auditorium")) {
-//                locationImage.setImageResource(R.drawable.newcomb);
-//            } else if (location.getName().equals("New Cabell 444")) {
-//                locationImage.setImageResource(R.drawable.new_cabell);
-//            } else {
-//                locationImage.setImageResource(R.drawable.rice);
-//            }
+            locationImage = (ImageView) findViewById(R.id.locationImage);
+            if (location.getName().equals("Rotunda")) {
+                locationImage.setImageResource(R.drawable.rotunda2);
+            } else if (location.getName().equals("Olsson 120")) {
+                locationImage.setImageResource(R.drawable.olsson);
+            } else if (location.getName().equals("Newcomb Auditorium")) {
+                locationImage.setImageResource(R.drawable.newcomb);
+            } else if (location.getName().equals("New Cabell 444")) {
+                locationImage.setImageResource(R.drawable.new_cabell);
+            } else {
+                locationImage.setImageResource(R.drawable.rice);
+            }
 
             locMan = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
