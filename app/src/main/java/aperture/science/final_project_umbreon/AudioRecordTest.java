@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -247,6 +249,9 @@ public class AudioRecordTest extends AppCompatActivity {
             playButtonDownload = (Button) findViewById(R.id.playButtonDownload);
             stopButtonDownload = (Button) findViewById(R.id.stopButtonDownload);
             uploadProgress = (ProgressBar) findViewById(R.id.progress_bar);
+            if(!isNetworkAvailable()){
+                downloadButton.setEnabled(false);
+            }
         } else {
             setContentView(R.layout.upload_recording);
             playButton = (Button) findViewById(R.id.playButtonUpload);
@@ -485,6 +490,13 @@ public class AudioRecordTest extends AppCompatActivity {
         Intent intent = new Intent(this, ViewPairing.class);
         intent.putExtra("Pairing", pairing);
         startActivity(intent);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }
