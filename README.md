@@ -1,4 +1,12 @@
 # final-project-umbreon
+**Final Documentation can be found in documentation.pdf above**
+
+/  
+/  
+/  
+/  
+/  
+
 Milestone #3  
 Changes from last milestone:
 - Added API call to get all of the pairings  
