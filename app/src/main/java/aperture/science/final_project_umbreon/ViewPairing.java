@@ -59,6 +59,7 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
     private boolean showingMap = false;
     private LocationManager locMan;
     private LocationListener locLis;
+    private GoogleMap mappy;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -233,22 +234,23 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap map) {
+        mappy = map;
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1337);
 
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                return;
-            }
+            return;
 
         }
+        Log.d("yo24", "wemadeit");
         LatLng debateLatLong = new LatLng(Double.parseDouble(pairing.getLocationID().getLatitude()), Double.parseDouble(pairing.getLocationID().getLongitude()));
 
         locMan.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locLis);
         android.location.Location myLocation = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        LatLng myLatLong = new LatLng(myLocation.getLatitude(),myLocation.getLongitude());
-        Log.d("LatLong",myLatLong+"");
+        LatLng myLatLong = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+
+        Log.d("LatLong", myLatLong + "");
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(debateLatLong, 13));
         //        map.setMyLocationEnabled(true);
 
@@ -262,6 +264,54 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
 //                .snippet("The most populous city in Australia.")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                 .position(debateLatLong));
+    }
+
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1337: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    Log.d("yo24", "wemadeit");
+                    LatLng debateLatLong = new LatLng(Double.parseDouble(pairing.getLocationID().getLatitude()), Double.parseDouble(pairing.getLocationID().getLongitude()));
+
+                    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                    locMan.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locLis);
+                    android.location.Location myLocation = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    LatLng myLatLong = new LatLng(myLocation.getLatitude(),myLocation.getLongitude());
+
+                    Log.d("LatLong",myLatLong+"");
+                    mappy.moveCamera(CameraUpdateFactory.newLatLngZoom(debateLatLong, 13));
+                    //        map.setMyLocationEnabled(true);
+
+
+                    mappy.addMarker(new MarkerOptions()
+                            .title("You")
+//                .snippet("The most populous city in Australia.")
+                            .position(myLatLong));
+                    mappy.addMarker(new MarkerOptions()
+                            .title("Debate")
+//                .snippet("The most populous city in Australia.")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                            .position(debateLatLong));
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
 }
