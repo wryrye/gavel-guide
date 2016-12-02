@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:text="Enter Ballot"
                 android:layout_weight="1"
-                android:id="@+id/button2"
+                android:id="@+id/ballotsubmitbutton"
                 android:onClick="launchSubmitBallot"/>
 
             <Button
