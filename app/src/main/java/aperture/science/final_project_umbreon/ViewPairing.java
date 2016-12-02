@@ -9,6 +9,8 @@ import android.content.res.Configuration;
 
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -63,6 +65,7 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         Intent intent = getIntent();
         pairing = (Pairing) intent.getSerializableExtra("Pairing");
@@ -170,6 +173,11 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
 
             View gooMap = findViewById(R.id.map);
             gooMap.setVisibility(View.GONE);
+
+            Button ballotButton = (Button) findViewById(R.id.ballotsubmitbutton);
+            if(!isNetworkAvailable()){
+                ballotButton.setEnabled(false);
+            }
         }
 //
 
@@ -312,6 +320,12 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }
