@@ -56,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
             public void onRefresh() {
                 mServer.getAllPairings("Main");
                 mServer.getAllStandings("Main");
+                if(!isNetworkAvailable()){
+                    Intent intent2 = new Intent(getBaseContext(), MainActivity.class);
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent2);
+                }
 
 //
             }
