@@ -3,6 +3,8 @@ package aperture.science.final_project_umbreon;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,7 +27,7 @@ import retrofit2.Response;
 /**
  * Created by Brandon on 11/27/2016.
  */
-public class SubmitBallotActivity extends Activity implements AdapterView.OnItemSelectedListener{
+public class SubmitBallotActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     Spinner spinner1;
     Spinner spinner2;
     Spinner spinner3;
@@ -45,6 +47,9 @@ public class SubmitBallotActivity extends Activity implements AdapterView.OnItem
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.submit_ballot);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");

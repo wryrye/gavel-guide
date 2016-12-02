@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -54,6 +57,8 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
     String id;
     String S3Key;
     private boolean showingMap = false;
+    private LocationManager locMan;
+    private LocationListener locLis;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +104,7 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
 
         } else {
             Log.d("orientation", this.getResources().getConfiguration().orientation + "");
-            if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 setContentView(R.layout.activity_view_pairing);
             } else {
                 setContentView(R.layout.activity_view_pairing_landscape);
@@ -120,18 +125,44 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
             locationText = (TextView) findViewById(R.id.location);
             locationText.setText(location.getName());
 
-            locationImage = (ImageView) findViewById(R.id.locationImage);
-            if (location.getName().equals("Rotunda")) {
-                locationImage.setImageResource(R.drawable.rotunda);
-            } else if (location.getName().equals("Olsson 120")) {
-                locationImage.setImageResource(R.drawable.olsson);
-            } else if (location.getName().equals("Newcomb Auditorium")) {
-                locationImage.setImageResource(R.drawable.newcomb);
-            } else if (location.getName().equals("New Cabell 444")) {
-                locationImage.setImageResource(R.drawable.new_cabell);
-            } else {
-                locationImage.setImageResource(R.drawable.rice);
-            }
+//            locationImage = (ImageView) findViewById(R.id.locationImage);
+//            if (location.getName().equals("Rotunda")) {
+//                locationImage.setImageResource(R.drawable.rotunda);
+//            } else if (location.getName().equals("Olsson 120")) {
+//                locationImage.setImageResource(R.drawable.olsson);
+//            } else if (location.getName().equals("Newcomb Auditorium")) {
+//                locationImage.setImageResource(R.drawable.newcomb);
+//            } else if (location.getName().equals("New Cabell 444")) {
+//                locationImage.setImageResource(R.drawable.new_cabell);
+//            } else {
+//                locationImage.setImageResource(R.drawable.rice);
+//            }
+
+            locMan = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+// Define a listener that responds to location updates
+            locLis = new LocationListener() {
+//                public void onLocationChanged(Location location) {
+//                    // Called when a new location is found by the network location provider.
+//                    makeUseOfNewLocation(location);
+//                }
+
+                @Override
+                public void onLocationChanged(android.location.Location location) {
+
+                }
+
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
+
+                public void onProviderEnabled(String provider) {
+                }
+
+                public void onProviderDisabled(String provider) {
+                }
+            };
+
+//
             SupportMapFragment m = ((SupportMapFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.map));
             m.getMapAsync(this);
@@ -164,15 +195,16 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
         }
 
     }
-    public void toggleMap(View view){
+
+    public void toggleMap(View view) {
         View myImage = findViewById(R.id.locationImage);
         View myMap = findViewById(R.id.map);
-        Button myButton = (Button)findViewById(R.id.directionsButton);
-        if(!showingMap) {
+        Button myButton = (Button) findViewById(R.id.directionsButton);
+        if (!showingMap) {
             myImage.setVisibility(View.GONE);
             myMap.setVisibility(View.VISIBLE);
             myButton.setText("Show Building");
-        }else{
+        } else {
             myImage.setVisibility(View.VISIBLE);
             myMap.setVisibility(View.GONE);
             myButton.setText("Show Map");
@@ -201,36 +233,35 @@ public class ViewPairing extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap map) {
-        LatLng sydney = new LatLng(Double.parseDouble(pairing.getLocationID().getLatitude()), Double.parseDouble(pairing.getLocationID().getLongitude()));
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1337);
-            map.setMyLocationEnabled(true);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
 
-            map.addMarker(new MarkerOptions()
-//                    .title("Sydney")
-//                    .snippet("The most populous city in Australia.")
-                    .position(sydney));
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                return;
+            }
 
-
-//            return;
         }
-        map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+        LatLng debateLatLong = new LatLng(Double.parseDouble(pairing.getLocationID().getLatitude()), Double.parseDouble(pairing.getLocationID().getLongitude()));
+
+        locMan.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locLis);
+        android.location.Location myLocation = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        LatLng myLatLong = new LatLng(myLocation.getLatitude(),myLocation.getLongitude());
+        Log.d("LatLong",myLatLong+"");
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(debateLatLong, 13));
+        //        map.setMyLocationEnabled(true);
+
 
         map.addMarker(new MarkerOptions()
-//                .title("Sydney")
+                .title("You")
 //                .snippet("The most populous city in Australia.")
-                .position(sydney));
+                .position(myLatLong));
+        map.addMarker(new MarkerOptions()
+                .title("Debate")
+//                .snippet("The most populous city in Australia.")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                .position(debateLatLong));
     }
-
 
 }
