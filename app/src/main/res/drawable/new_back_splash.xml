@@ -4,7 +4,7 @@
         android:drawable="@android:color/white"/>
 
     <item
-        android:bottom="300dp"
+        android:bottom="400dp"
         android:drawable="@drawable/splash_text"
         />
 
