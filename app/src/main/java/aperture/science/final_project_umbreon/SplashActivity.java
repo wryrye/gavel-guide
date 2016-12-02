@@ -71,6 +71,8 @@ public class SplashActivity extends AppCompatActivity {
                 toast.show();
                 Log.d("Data", "is not available!");
             }
+            ((PairingArray) this.getApplication()).setUpPairings(pairings); //set pairings
+            ((PairingArray) this.getApplication()).setUpStandings(standings); //set standings
             startMainActivity(); //and go to MainActivity
 
         } else { //if network is available...
@@ -151,8 +153,6 @@ public class SplashActivity extends AppCompatActivity {
     }
     public void startMainActivity(){
         Log.d("Splash","start1");
-//        ((PairingArray) this.getApplication()).setUpPairings(pairings); //set pairings
-//        ((PairingArray) this.getApplication()).setUpStandings(standings); //set standings
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra("CurrentRound", pairings);
         Log.d("Splash","start2");
